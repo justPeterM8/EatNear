@@ -15,7 +15,7 @@ public class NearRestaurantsFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_tab_near, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_tab, container, false);
 
         return rootView;
     }
