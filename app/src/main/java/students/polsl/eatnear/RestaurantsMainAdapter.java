@@ -42,7 +42,7 @@ public class RestaurantsMainAdapter extends RecyclerView.Adapter<RestaurantsMain
         //using fake data for now
         holder.itemView.setTag(fakeDataList.get(position).getId());
         holder.restaurantNameTW.setText(fakeDataList.get(position).getName());
-        holder.restaurantDistanceTW.setText(String.valueOf(fakeDataList.get(position).getDistance()));
+        holder.restaurantDistanceTW.setText(fakeDataList.get(position).getDistance());
         holder.restaurantRating.setRating(fakeDataList.get(position).getRating());
     }
 

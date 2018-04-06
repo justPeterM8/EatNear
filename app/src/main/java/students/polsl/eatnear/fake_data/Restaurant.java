@@ -4,7 +4,7 @@ package students.polsl.eatnear.fake_data;
 public class Restaurant {
     private int id;
     private String name;
-    private int distance;
+    private String distance;
     private float rating;
 
     public int getId() {
@@ -23,11 +23,11 @@ public class Restaurant {
         this.name = name;
     }
 
-    public int getDistance() {
+    public String getDistance() {
         return distance;
     }
 
-    public void setDistance(int distance) {
+    public void setDistance(String distance) {
         this.distance = distance;
     }
 
