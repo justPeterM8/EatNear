@@ -13,12 +13,14 @@ import android.widget.Toast;
 
 import students.polsl.eatnear.R;
 import students.polsl.eatnear.RestaurantsMainAdapter;
+import students.polsl.eatnear.databinding.FragmentTabBinding;
 import students.polsl.eatnear.fake_data.FakeDataCreator;
 
 public class AllRestaurantsFragment extends Fragment implements RestaurantsMainAdapter.RestaurantTileListener{
     private Context appContext;
-    private RecyclerView recyclerView;
-    private RestaurantsMainAdapter contactsAdapter;
+    private RecyclerView mRecyclerView;
+    private RestaurantsMainAdapter mRestaurantsMainAdapter;
+    private FragmentTabBinding fragmentTabBinding;
 
     public AllRestaurantsFragment() {}
 
@@ -27,11 +29,11 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tab, container, false);
         appContext = getActivity().getApplicationContext();
-        recyclerView = rootView.findViewById(R.id.restaurant_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(appContext));
-        contactsAdapter = new RestaurantsMainAdapter(this, appContext, FakeDataCreator.createRestaurantDataList(20));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(contactsAdapter);
+        mRecyclerView = rootView.findViewById(R.id.restaurant_list);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(appContext));
+        mRestaurantsMainAdapter = new RestaurantsMainAdapter(this, appContext, FakeDataCreator.createRestaurantDataList(20));
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setAdapter(mRestaurantsMainAdapter);
         return rootView;
     }
 
