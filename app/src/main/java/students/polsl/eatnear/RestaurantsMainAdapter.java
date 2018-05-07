@@ -2,7 +2,6 @@ package students.polsl.eatnear;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import students.polsl.eatnear.fake_data.FakeDataCreator;
 import students.polsl.eatnear.fake_data.Restaurant;
 
 
@@ -39,8 +37,11 @@ public class RestaurantsMainAdapter extends RecyclerView.Adapter<RestaurantsMain
 
     @Override
     public void onBindViewHolder(RestaurantTileViewHolder holder, int position) {
-        //using fake data for now
         holder.itemView.setTag(fakeDataList.get(position).getId());
+        holder.itemView.setTag(R.id.addressTextView, "Pyskowice, Armii Krajowej 33");
+        holder.itemView.setTag(R.id.restaurantNameTextView, fakeDataList.get(position).getName());
+
+        //using fake data for now
         holder.restaurantNameTW.setText(fakeDataList.get(position).getName());
         holder.restaurantDistanceTW.setText(fakeDataList.get(position).getDistance());
         holder.restaurantRating.setRating(fakeDataList.get(position).getRating());

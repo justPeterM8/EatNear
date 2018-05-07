@@ -3,4 +3,8 @@
 
     <string name="near_restaurant_tab_label">near</string>
     <string name="all_restaurants_tab_label">all</string>
+    <string name="add_review_message_view">Add new review to help other customers with good restaurant selection.</string>
+    <string name="restaurant_message_view">Add new restaurant to extend our restaurant list.</string>
+    <string name="welcome_page_button_label">ENTER</string>
+    <string name="submit_new_review_button_label">ADD</string>
 </resources>
