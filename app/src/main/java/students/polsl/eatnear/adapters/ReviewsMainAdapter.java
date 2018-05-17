@@ -14,19 +14,19 @@ import students.polsl.eatnear.R;
 import students.polsl.eatnear.model.Review;
 
 
-public class ReviewMainAdapter extends RecyclerView.Adapter<ReviewMainAdapter.ReviewTileViewHolder> {
+public class ReviewsMainAdapter extends RecyclerView.Adapter<ReviewsMainAdapter.ReviewTileViewHolder> {
     private Context appContext;
     private final List<Review> fakeDataList;
 
 
-    public ReviewMainAdapter(Context context, List<Review> listOfReviews){
+    public ReviewsMainAdapter(Context context, List<Review> listOfReviews){
         this.appContext = context;
         fakeDataList = listOfReviews;//filling with fake data
     }
 
     @Override
     public ReviewTileViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from((Context) appContext);
+        LayoutInflater layoutInflater = LayoutInflater.from(appContext);
         View view = layoutInflater.inflate(R.layout.customer_reviews_list, parent, false);
         return new ReviewTileViewHolder(view);
     }

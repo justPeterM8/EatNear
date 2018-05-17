@@ -38,7 +38,7 @@ public class RestaurantsMainAdapter extends RecyclerView.Adapter<RestaurantsMain
 
     @Override
     public void onBindViewHolder(RestaurantTileViewHolder holder, int position) {
-        holder.itemView.setTag(fakeDataList.get(position).getId());
+        holder.itemView.setTag(position);
         holder.itemView.setTag(R.id.addressTextView, "Pyskowice, Armii Krajowej 33");
         holder.itemView.setTag(R.id.restaurantNameTextView, fakeDataList.get(position).getName());
 

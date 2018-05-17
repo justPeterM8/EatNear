@@ -58,7 +58,6 @@ public class FakeRestaurantDataCreator {
         Random rand = new Random(49);
         for(int i=1; i<=size; i++){
             Restaurant restaurant = new Restaurant();
-            restaurant.setId(i);
             restaurant.setName(RESTAURANT_NAMES[rand.nextInt(RESTAURANT_NAMES.length)]);
             restaurant.setDistance("Distance: " + RESTAURANT_DISTANCES[rand.nextInt(RESTAURANT_DISTANCES.length)] + "m");
             restaurant.setRating(RESTAURANT_RATINGS[rand.nextInt(RESTAURANT_RATINGS.length)]);

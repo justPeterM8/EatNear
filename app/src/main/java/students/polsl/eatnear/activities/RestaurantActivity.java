@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,16 +22,26 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.logging.Logger;
+
+import retrofit2.Call;
+import retrofit2.Response;
 import students.polsl.eatnear.R;
 import students.polsl.eatnear.adapters.RestaurantsMainAdapter;
-import students.polsl.eatnear.fake_data.FakeRestaurantDataCreator;
+import students.polsl.eatnear.adapters.ReviewsMainAdapter;
+import students.polsl.eatnear.fake_data.FakeReviewDataCreator;
+import students.polsl.eatnear.model.Restaurant;
+import students.polsl.eatnear.retrofit.EatNearClient;
+import students.polsl.eatnear.retrofit.RetrofitUtils;
 
 public class RestaurantActivity extends AppCompatActivity implements OnMapReadyCallback, RestaurantsMainAdapter.RestaurantTileListener {
     private RecyclerView mRecyclerView;
-    private RestaurantsMainAdapter mRestaurantsMainAdapter;
+    private ReviewsMainAdapter mRestaurantsMainAdapter;
     private FloatingActionButton mActionButton;
     private TextView mRestaurantNameTextView;
     private TextView mRestaurantLocationTextView;
+    private Logger logger = Logger.getLogger(this.getClass().getSimpleName());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +52,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         mRestaurantNameTextView = findViewById(R.id.restaurantNameTextView);
 
         Intent intent = getIntent();
+        logger.info(intent.getStringExtra("location"));
         mRestaurantLocationTextView.setText(intent.getStringExtra("location"));
         mRestaurantNameTextView.setText(intent.getStringExtra("name"));
 
@@ -49,7 +62,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
 
         mRecyclerView = findViewById(R.id.review_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRestaurantsMainAdapter = new RestaurantsMainAdapter(this, this, FakeRestaurantDataCreator.createRestaurantFakeDataList(10));
+        mRestaurantsMainAdapter = new ReviewsMainAdapter(this, FakeReviewDataCreator.createReviewFakeDataList(10));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mRestaurantsMainAdapter);
 

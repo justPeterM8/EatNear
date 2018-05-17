@@ -1,19 +1,28 @@
 package students.polsl.eatnear.model;
 
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 public class Restaurant {
-    private int id;
+    @SerializedName("name")
     private String name;
+
+    @SerializedName("localizationLongitude")
+    private String localizationLongitude;
+
+    @SerializedName("localizationLatitude")
+    private String localizationLatitude;
+
+    @SerializedName("distance")
     private String distance;
+
+    @SerializedName("rating")
     private float rating;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    @SerializedName("reviews")
+    List<Review> reviews;
 
     public String getName() {
         return name;
@@ -39,10 +48,34 @@ public class Restaurant {
         this.rating = rating;
     }
 
+    public String getLocalizationLongitude() {
+        return localizationLongitude;
+    }
+
+    public void setLocalizationLongitude(String localizationLongitude) {
+        this.localizationLongitude = localizationLongitude;
+    }
+
+    public String getLocalizationLatitude() {
+        return localizationLatitude;
+    }
+
+    public void setLocalizationLatitude(String localizationLatitude) {
+        this.localizationLatitude = localizationLatitude;
+    }
+
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
     @Override
     public String toString() {
         return "Restaurant{" +
-                "id=" + id +
                 ", name='" + name + '\'' +
                 ", distance=" + distance +
                 ", rating=" + rating +
