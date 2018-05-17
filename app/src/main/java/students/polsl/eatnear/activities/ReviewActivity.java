@@ -1,4 +1,4 @@
-package students.polsl.eatnear;
+package students.polsl.eatnear.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import students.polsl.eatnear.R;
 
 public class ReviewActivity extends AppCompatActivity {
     private Button mSubmitButton;

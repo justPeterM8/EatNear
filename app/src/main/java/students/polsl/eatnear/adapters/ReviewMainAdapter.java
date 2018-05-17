@@ -1,4 +1,4 @@
-package students.polsl.eatnear;
+package students.polsl.eatnear.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import students.polsl.eatnear.R;
 import students.polsl.eatnear.model.Review;
 
 

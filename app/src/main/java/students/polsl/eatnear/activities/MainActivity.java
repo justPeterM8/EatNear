@@ -1,6 +1,7 @@
-package students.polsl.eatnear;
+package students.polsl.eatnear.activities;
 
 import android.*;
+import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
@@ -18,6 +19,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
+import students.polsl.eatnear.*;
+import students.polsl.eatnear.R;
 import students.polsl.eatnear.tabs.AllRestaurantsFragment;
 import students.polsl.eatnear.tabs.NearRestaurantsFragment;
 
@@ -31,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(students.polsl.eatnear.R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         mViewPager = findViewById(R.id.container);

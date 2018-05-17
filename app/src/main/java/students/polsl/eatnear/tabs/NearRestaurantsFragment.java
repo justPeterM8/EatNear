@@ -12,11 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import students.polsl.eatnear.AddRestaurantActivity;
-import students.polsl.eatnear.MapActivity;
+import students.polsl.eatnear.activities.AddRestaurantActivity;
+import students.polsl.eatnear.activities.MapActivity;
 import students.polsl.eatnear.R;
-import students.polsl.eatnear.RestaurantActivity;
-import students.polsl.eatnear.RestaurantsMainAdapter;
+import students.polsl.eatnear.activities.RestaurantActivity;
+import students.polsl.eatnear.adapters.RestaurantsMainAdapter;
 import students.polsl.eatnear.fake_data.FakeRestaurantDataCreator;
 
 public class NearRestaurantsFragment extends Fragment implements RestaurantsMainAdapter.RestaurantTileListener{

@@ -1,4 +1,4 @@
-package students.polsl.eatnear;
+package students.polsl.eatnear.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +20,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import students.polsl.eatnear.R;
+import students.polsl.eatnear.adapters.RestaurantsMainAdapter;
 import students.polsl.eatnear.fake_data.FakeRestaurantDataCreator;
 
 public class RestaurantActivity extends AppCompatActivity implements OnMapReadyCallback, RestaurantsMainAdapter.RestaurantTileListener {

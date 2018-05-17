@@ -1,4 +1,4 @@
-package students.polsl.eatnear;
+package students.polsl.eatnear.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,14 +16,14 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+
+import students.polsl.eatnear.R;
 
 public class AddRestaurantActivity extends AppCompatActivity {
     private EditText mRestaurantNameEditText;
