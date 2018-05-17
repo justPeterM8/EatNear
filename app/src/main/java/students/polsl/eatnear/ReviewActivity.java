@@ -1,10 +1,7 @@
 package students.polsl.eatnear;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -32,7 +29,7 @@ public class ReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
 
-        mRatingBar = findViewById(R.id.ratingBar);
+        mRatingBar = findViewById(R.id.restaurantRatingBar);
         mSubmitButton = findViewById(R.id.submitButton);
         mCustomerEditText = findViewById(R.id.loginEditText);
         mReviewEditText = findViewById(R.id.descriptionEditView);

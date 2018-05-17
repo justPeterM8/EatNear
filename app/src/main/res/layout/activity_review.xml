@@ -52,7 +52,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="30dp"
         android:maxLength="15"
-        android:text="Your nick"
+        android:text="Your author"
         android:textColor="@color/colorAccent"
         android:textSize="28sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +65,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="0dp"
-        android:hint="your nick"
+        android:hint="your author"
         android:textColor="@color/colorPrimary"
         android:textSize="26sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +94,7 @@
         app:layout_constraintTop_toTopOf="@+id/ratingImageView" />
 
     <RatingBar
-        android:id="@+id/ratingBar"
+        android:id="@+id/restaurantRatingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:numStars="5"

@@ -11,14 +11,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import students.polsl.eatnear.AddRestaurantActivity;
 import students.polsl.eatnear.MapActivity;
 import students.polsl.eatnear.R;
 import students.polsl.eatnear.RestaurantActivity;
 import students.polsl.eatnear.RestaurantsMainAdapter;
-import students.polsl.eatnear.fake_data.FakeDataCreator;
+import students.polsl.eatnear.fake_data.FakeRestaurantDataCreator;
 
 public class NearRestaurantsFragment extends Fragment implements RestaurantsMainAdapter.RestaurantTileListener{
     private Context appContext;
@@ -45,7 +44,7 @@ public class NearRestaurantsFragment extends Fragment implements RestaurantsMain
 
         mRecyclerView = rootView.findViewById(R.id.restaurant_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(appContext));
-        mRestaurantsMainAdapter = new RestaurantsMainAdapter(this, appContext, FakeDataCreator.createRestaurantDataList(10));
+        mRestaurantsMainAdapter = new RestaurantsMainAdapter(this, appContext, FakeRestaurantDataCreator.createRestaurantFakeDataList(10));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mRestaurantsMainAdapter);
 

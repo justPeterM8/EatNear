@@ -50,7 +50,7 @@
         tools:text="Pyskowice, Armii Krajowej 33" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/restaurant_list"
+        android:id="@+id/review_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"

@@ -17,8 +17,7 @@ import students.polsl.eatnear.MapActivity;
 import students.polsl.eatnear.R;
 import students.polsl.eatnear.RestaurantActivity;
 import students.polsl.eatnear.RestaurantsMainAdapter;
-import students.polsl.eatnear.ReviewActivity;
-import students.polsl.eatnear.fake_data.FakeDataCreator;
+import students.polsl.eatnear.fake_data.FakeRestaurantDataCreator;
 
 public class AllRestaurantsFragment extends Fragment implements RestaurantsMainAdapter.RestaurantTileListener{
     private Context appContext;
@@ -45,7 +44,7 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
 
         mRecyclerView = rootView.findViewById(R.id.restaurant_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(appContext));
-        mRestaurantsMainAdapter = new RestaurantsMainAdapter(this, appContext, FakeDataCreator.createRestaurantDataList(20));
+        mRestaurantsMainAdapter = new RestaurantsMainAdapter(this, appContext, FakeRestaurantDataCreator.createRestaurantFakeDataList(20));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mRestaurantsMainAdapter);
 

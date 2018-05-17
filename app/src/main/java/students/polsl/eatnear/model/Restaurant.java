@@ -1,4 +1,4 @@
-package students.polsl.eatnear.fake_data;
+package students.polsl.eatnear.model;
 
 
 public class Restaurant {

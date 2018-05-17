@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <RatingBar
-        android:id="@+id/ratingBar"
+        android:id="@+id/restaurantRatingBar"
         style="?android:attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ratingBar"
+        app:layout_constraintStart_toEndOf="@+id/restaurantRatingBar"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="RestaurantSomeName" />
 

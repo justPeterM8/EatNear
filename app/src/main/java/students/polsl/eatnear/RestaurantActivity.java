@@ -20,7 +20,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import students.polsl.eatnear.fake_data.FakeDataCreator;
+import students.polsl.eatnear.fake_data.FakeRestaurantDataCreator;
 
 public class RestaurantActivity extends AppCompatActivity implements OnMapReadyCallback, RestaurantsMainAdapter.RestaurantTileListener {
     private RecyclerView mRecyclerView;
@@ -45,9 +45,9 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        mRecyclerView = findViewById(R.id.restaurant_list);
+        mRecyclerView = findViewById(R.id.review_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRestaurantsMainAdapter = new RestaurantsMainAdapter(this, this, FakeDataCreator.createRestaurantDataList(10));
+        mRestaurantsMainAdapter = new RestaurantsMainAdapter(this, this, FakeRestaurantDataCreator.createRestaurantFakeDataList(10));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mRestaurantsMainAdapter);
 

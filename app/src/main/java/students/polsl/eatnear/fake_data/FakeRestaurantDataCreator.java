@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class FakeDataCreator {
+import students.polsl.eatnear.model.Restaurant;
+
+public class FakeRestaurantDataCreator {
 
     private static final String [] RESTAURANT_NAMES = new String[]{
             "The Champagne Spice",
@@ -51,7 +53,7 @@ public class FakeDataCreator {
             1.5f
     };
 
-    public static List<Restaurant> createRestaurantDataList(int size){
+    public static List<Restaurant> createRestaurantFakeDataList(int size){
         List<Restaurant> resultList = new ArrayList<>();
         Random rand = new Random(49);
         for(int i=1; i<=size; i++){

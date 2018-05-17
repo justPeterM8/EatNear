@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import students.polsl.eatnear.fake_data.Restaurant;
+import students.polsl.eatnear.model.Restaurant;
 
 
 public class RestaurantsMainAdapter extends RecyclerView.Adapter<RestaurantsMainAdapter.RestaurantTileViewHolder> {
@@ -61,7 +61,7 @@ public class RestaurantsMainAdapter extends RecyclerView.Adapter<RestaurantsMain
             super(itemView);
             this.restaurantNameTW = itemView.findViewById(R.id.restaurantNameTextView);
             this.restaurantDistanceTW = itemView.findViewById(R.id.distanceTextView);
-            this.restaurantRating = itemView.findViewById(R.id.ratingBar);
+            this.restaurantRating = itemView.findViewById(R.id.restaurantRatingBar);
             itemView.setOnClickListener(this);
         }
 
