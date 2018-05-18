@@ -12,12 +12,13 @@ import java.util.List;
 
 import students.polsl.eatnear.R;
 import students.polsl.eatnear.model.Restaurant;
+import students.polsl.eatnear.utilities.MapUtility;
 
 
 public class RestaurantsMainAdapter extends RecyclerView.Adapter<RestaurantsMainAdapter.RestaurantTileViewHolder> {
     private RestaurantTileListener restaurantListener;
     private Context appContext;
-    private final List<Restaurant> fakeDataList;
+    private List<Restaurant> data;
 
     public interface RestaurantTileListener{
         void onClickAction(View view);
@@ -26,12 +27,12 @@ public class RestaurantsMainAdapter extends RecyclerView.Adapter<RestaurantsMain
     public RestaurantsMainAdapter(RestaurantTileListener listener, Context context, List<Restaurant> listOfRestaurants){
         this.restaurantListener = listener;
         this.appContext = context;
-        fakeDataList = listOfRestaurants;//filling with fake data
+        data = listOfRestaurants;//filling with fake data
     }
 
     @Override
     public RestaurantTileViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from((Context) appContext);
+        LayoutInflater layoutInflater = LayoutInflater.from(appContext);
         View view = layoutInflater.inflate(R.layout.restaurant_list, parent, false);
         return new RestaurantTileViewHolder(view);
     }
@@ -39,18 +40,23 @@ public class RestaurantsMainAdapter extends RecyclerView.Adapter<RestaurantsMain
     @Override
     public void onBindViewHolder(RestaurantTileViewHolder holder, int position) {
         holder.itemView.setTag(position);
-        holder.itemView.setTag(R.id.addressTextView, "Pyskowice, Armii Krajowej 33");
-        holder.itemView.setTag(R.id.restaurantNameTextView, fakeDataList.get(position).getName());
+        holder.itemView.setTag(R.id.addressTextView, data.get(position).getAddress());
+        holder.itemView.setTag(R.id.restaurantNameTextView, data.get(position).getName());
 
-        //using fake data for now
-        holder.restaurantNameTW.setText(fakeDataList.get(position).getName());
-        holder.restaurantDistanceTW.setText(fakeDataList.get(position).getDistance());
-        holder.restaurantRating.setRating(fakeDataList.get(position).getRating());
+        holder.restaurantNameTW.setText(data.get(position).getName());
+        holder.restaurantDistanceTW.setText("Distance: " + data.get(position).getDistance());
+        holder.restaurantRating.setRating(data.get(position).getOverallRating());
+    }
+
+    public void swapData(List<Restaurant> data){
+        this.data = data;
+        if (this.data != null)
+            this.notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return fakeDataList == null ? 0 : fakeDataList.size();
+        return data == null ? 0 : data.size();
     }
 
     class RestaurantTileViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{

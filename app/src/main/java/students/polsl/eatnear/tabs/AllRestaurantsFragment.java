@@ -73,15 +73,15 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
         }
 
         //retrofit
-        eatNearClient = RetrofitUtils.createClient("http://c2131089.ngrok.io", EatNearClient.class);
+        eatNearClient = RetrofitUtils.createClient("http://9732222e.ngrok.io", EatNearClient.class);
         Call<List<Restaurant>> callEatNear = eatNearClient.getAllRestaurantsInfo(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
-        new GetAllRestaurantsInfo().execute(callEatNear);
 
         mRecyclerView = rootView.findViewById(R.id.restaurant_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(appContext));
         mRestaurantsMainAdapter = new RestaurantsMainAdapter(this, appContext, FakeRestaurantDataCreator.createRestaurantFakeDataList(20));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mRestaurantsMainAdapter);
+        new GetAllRestaurantsInfo().execute(callEatNear);
 
         mMenuActionButton.setOnClickListener(view -> {
             if (!mIsFabOpen) {
@@ -100,8 +100,6 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
             Intent startMapActivity = new Intent(appContext, MapActivity.class);
             startActivity(startMapActivity);
         });
-
-        logger.info(mCurrentLocation.toString());
         return rootView;
     }
 
@@ -169,10 +167,11 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
         @Override
         protected void onPostExecute(Response<List<Restaurant>> postResponse) {//all user data available
             List<Restaurant> responseRestaurant = postResponse.body();
-            if(responseRestaurant == null){//there is no response (no user found)
-
+            if(responseRestaurant != null){//there is no response (no user found)
+                mRestaurantsMainAdapter.swapData(responseRestaurant);
             }else
-                logger.info("NOT NULL");
+                Toast.makeText(appContext, "Data transfer failed displaying fake data", Toast.LENGTH_SHORT).show();
+
         }
     }
 }

@@ -60,7 +60,7 @@ public class FakeRestaurantDataCreator {
             Restaurant restaurant = new Restaurant();
             restaurant.setName(RESTAURANT_NAMES[rand.nextInt(RESTAURANT_NAMES.length)]);
             restaurant.setDistance("Distance: " + RESTAURANT_DISTANCES[rand.nextInt(RESTAURANT_DISTANCES.length)] + "m");
-            restaurant.setRating(RESTAURANT_RATINGS[rand.nextInt(RESTAURANT_RATINGS.length)]);
+            restaurant.setOverallRating(RESTAURANT_RATINGS[rand.nextInt(RESTAURANT_RATINGS.length)]);
             resultList.add(restaurant);
         }
         return resultList;

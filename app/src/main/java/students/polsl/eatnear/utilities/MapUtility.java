@@ -8,8 +8,6 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
-
-
 public class MapUtility {
     public double[] getLocationFromAddress(Context context, String strAddress) {
 

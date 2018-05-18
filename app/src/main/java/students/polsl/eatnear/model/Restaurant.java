@@ -10,19 +10,22 @@ public class Restaurant {
     private String name;
 
     @SerializedName("localizationLongitude")
-    private String localizationLongitude;
+    private double localizationLongitude;
 
     @SerializedName("localizationLatitude")
-    private String localizationLatitude;
+    private double localizationLatitude;
 
     @SerializedName("distance")
     private String distance;
 
-    @SerializedName("rating")
-    private float rating;
+    @SerializedName("address")
+    private String address;
+
+    @SerializedName("overallRating")
+    private float overallRating;
 
     @SerializedName("reviews")
-    List<Review> reviews;
+    private List<Review> reviews;
 
     public String getName() {
         return name;
@@ -40,30 +43,29 @@ public class Restaurant {
         this.distance = distance;
     }
 
-    public float getRating() {
-        return rating;
+    public void setOverallRating(float overallRating) {
+        this.overallRating = overallRating;
     }
 
-    public void setRating(float rating) {
-        this.rating = rating;
+    public float getOverallRating() {
+        return overallRating;
     }
 
-    public String getLocalizationLongitude() {
+    public double getLocalizationLongitude() {
         return localizationLongitude;
     }
 
-    public void setLocalizationLongitude(String localizationLongitude) {
+    public void setLocalizationLongitude(double localizationLongitude) {
         this.localizationLongitude = localizationLongitude;
     }
 
-    public String getLocalizationLatitude() {
+    public double getLocalizationLatitude() {
         return localizationLatitude;
     }
 
-    public void setLocalizationLatitude(String localizationLatitude) {
+    public void setLocalizationLatitude(double localizationLatitude) {
         this.localizationLatitude = localizationLatitude;
     }
-
 
     public List<Review> getReviews() {
         return reviews;
@@ -73,12 +75,20 @@ public class Restaurant {
         this.reviews = reviews;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
         return "Restaurant{" +
                 ", name='" + name + '\'' +
                 ", distance=" + distance +
-                ", rating=" + rating +
+                ", rating=" + overallRating +
                 '}';
     }
 }
