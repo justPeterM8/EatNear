@@ -1,11 +1,23 @@
 package students.polsl.eatnear.model;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.Date;
+
 public class Review {
     private int id;
+
+    @SerializedName("description")
     private String description;
+
+    @SerializedName("author")
     private String author;
+
+    @SerializedName("rating")
     private float rating;
-    private String date;
+
+    @SerializedName("date")
+    private Date date;
 
     public int getId() {
         return id;
@@ -39,11 +51,11 @@ public class Review {
         this.rating = rating;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 }

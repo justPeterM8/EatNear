@@ -1,7 +1,11 @@
 package students.polsl.eatnear.fake_data;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import students.polsl.eatnear.model.Review;
 
@@ -39,13 +43,21 @@ public class FakeReviewDataCreator {
     };
 
 
-    public static String randBetween(int start, int end) {
+    private static String randBetween(int start, int end) {
         String value = String.valueOf(start + (int) Math.round(Math.random() * (end - start)));
         return value.length() == 1 ? ("0" + value) : value;
     }
 
-    private static String generateRandomDate() {
-        return String.format("%s-%s-%s", randBetween(2000, 2018), randBetween(1, 12), randBetween(1, 28));
+    private static Date generateRandomDate() {
+        try {
+             return new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault()).parse(String.format("%s-%s-%s",
+                    randBetween(2000, 2018),
+                    randBetween(1, 12),
+                    randBetween(1, 28)));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static List<Review> createReviewFakeDataList(int size) {
@@ -57,7 +69,7 @@ public class FakeReviewDataCreator {
             review.setAuthor(REVIEW_AUTHORS[rand.nextInt(REVIEW_AUTHORS.length)]);
             review.setDescription(REVIEW_DESCRIPTION[rand.nextInt(REVIEW_DESCRIPTION.length)]);
             review.setRating(REVIEW_RATINGS[rand.nextInt(REVIEW_RATINGS.length)]);
-            review.setDate("Date: " + generateRandomDate());
+            review.setDate(generateRandomDate());
             resultList.add(review);
         }
         return resultList;

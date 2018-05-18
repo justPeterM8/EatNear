@@ -8,20 +8,19 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
-
 import students.polsl.eatnear.R;
 import students.polsl.eatnear.model.Review;
 
 
 public class ReviewsMainAdapter extends RecyclerView.Adapter<ReviewsMainAdapter.ReviewTileViewHolder> {
     private Context appContext;
-    private final List<Review> fakeDataList;
+    private List<Review> data;
 
 
-    public ReviewsMainAdapter(Context context, List<Review> listOfReviews){
+    public ReviewsMainAdapter(Context context){
         this.appContext = context;
-        fakeDataList = listOfReviews;//filling with fake data
     }
 
     @Override
@@ -33,16 +32,22 @@ public class ReviewsMainAdapter extends RecyclerView.Adapter<ReviewsMainAdapter.
 
     @Override
     public void onBindViewHolder(ReviewTileViewHolder holder, int position) {
-        //using fake data for now
-        holder.reviewAuthorTW.setText(fakeDataList.get(position).getAuthor());
-        holder.reviewDescriptionTW.setText(fakeDataList.get(position).getDescription());
-        holder.reviewDateTW.setText(fakeDataList.get(position).getDate());
-        holder.reviewRating.setRating(fakeDataList.get(position).getRating());
+        holder.reviewAuthorTW.setText(data.get(position).getAuthor());
+        holder.reviewDescriptionTW.setText(data.get(position).getDescription());
+        SimpleDateFormat dt1 = new SimpleDateFormat("YYYY-MM-dd");
+        holder.reviewDateTW.setText("Date: " + dt1.format(data.get(position).getDate()));
+        holder.reviewRating.setRating(data.get(position).getRating());
     }
 
     @Override
     public int getItemCount() {
-        return fakeDataList == null ? 0 : fakeDataList.size();
+        return data == null ? 0 : data.size();
+    }
+
+    public void swapData(List<Review> data){
+        this.data = data;
+        if (this.data != null)
+            this.notifyDataSetChanged();
     }
 
     class ReviewTileViewHolder extends RecyclerView.ViewHolder{
@@ -50,8 +55,6 @@ public class ReviewsMainAdapter extends RecyclerView.Adapter<ReviewsMainAdapter.
         private TextView reviewDescriptionTW;
         private TextView reviewDateTW;
         private RatingBar reviewRating;
-
-
 
         public ReviewTileViewHolder(View itemView) {
             super(itemView);

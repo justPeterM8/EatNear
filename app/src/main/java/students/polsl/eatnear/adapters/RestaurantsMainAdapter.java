@@ -24,10 +24,9 @@ public class RestaurantsMainAdapter extends RecyclerView.Adapter<RestaurantsMain
         void onClickAction(View view);
     }
 
-    public RestaurantsMainAdapter(RestaurantTileListener listener, Context context, List<Restaurant> listOfRestaurants){
+    public RestaurantsMainAdapter(RestaurantTileListener listener, Context context){
         this.restaurantListener = listener;
         this.appContext = context;
-        data = listOfRestaurants;//filling with fake data
     }
 
     @Override

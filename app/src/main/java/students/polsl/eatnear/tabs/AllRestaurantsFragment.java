@@ -78,7 +78,7 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
 
         mRecyclerView = rootView.findViewById(R.id.restaurant_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(appContext));
-        mRestaurantsMainAdapter = new RestaurantsMainAdapter(this, appContext, FakeRestaurantDataCreator.createRestaurantFakeDataList(20));
+        mRestaurantsMainAdapter = new RestaurantsMainAdapter(this, appContext);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mRestaurantsMainAdapter);
         new GetAllRestaurantsInfo().execute(callEatNear);
@@ -117,7 +117,6 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
 
     @Override
     public void onClickAction(View view) {
-        //Toast.makeText(appContext, "Click registered on tile: " + view.getTag(RestaurantsMainAdapter.ID_KEY), Toast.LENGTH_SHORT).show();
         Intent startRestaurantActivity = new Intent(appContext, RestaurantActivity.class);
         startRestaurantActivity.putExtra("location", "" + view.getTag(R.id.addressTextView));
         startRestaurantActivity.putExtra("name", "" + view.getTag(R.id.restaurantNameTextView));
@@ -147,12 +146,6 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
     }
 
     public class GetAllRestaurantsInfo extends AsyncTask<Call<List<Restaurant>>, Void, Response<List<Restaurant>>> {
-
-        @Override
-        protected void onPreExecute() {
-            Toast.makeText(appContext, "Loading data", Toast.LENGTH_SHORT).show();
-        }
-
         @Override
         protected Response<List<Restaurant>> doInBackground(Call<List<Restaurant>>[] calls) {
             Response<List<Restaurant>> response = null;
@@ -170,7 +163,7 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
             if(responseRestaurant != null){//there is no response (no user found)
                 mRestaurantsMainAdapter.swapData(responseRestaurant);
             }else
-                Toast.makeText(appContext, "Data transfer failed displaying fake data", Toast.LENGTH_SHORT).show();
+                mRestaurantsMainAdapter.swapData(FakeRestaurantDataCreator.createRestaurantFakeDataList(20));
 
         }
     }
