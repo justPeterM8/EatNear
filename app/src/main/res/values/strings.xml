@@ -7,4 +7,21 @@
     <string name="restaurant_message_view">Add new restaurant to extend our restaurant list.</string>
     <string name="welcome_page_button_label">ENTER</string>
     <string name="submit_new_review_button_label">ADD</string>
+    <string name="category">Category</string>
+    <string name="address_check_box">Set address as current GPS location</string>
+    <string name="address">Address</string>
+    <string name="name">Name</string>
+    <string name="new_restaurant">New Restaurant</string>
+    <string name="customer_name">Customer</string>
+    <string name="review">Review</string>
+    <string name="rating">Rating</string>
+
+    <string-array name="food_category">
+        <item>International</item>
+        <item>Italian</item>
+        <item>Chinese</item>
+        <item>American</item>
+        <item>Polish</item>
+    </string-array>
+
 </resources>

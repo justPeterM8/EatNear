@@ -14,18 +14,23 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import students.polsl.eatnear.R;
 
-public class AddRestaurantActivity extends AppCompatActivity {
+public class AddRestaurantActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private EditText mRestaurantNameEditText;
     private EditText mRestaurantAddressEditText;
     private CheckBox mCurrentAddressCheckbox;
@@ -33,6 +38,7 @@ public class AddRestaurantActivity extends AppCompatActivity {
 
     private String mRestaurantName;
     private String mRestaurantAddress;
+    private String mRestaurantCategory;
     private double mAddressLatitude;
     private double mAddressLongitude;
 
@@ -44,6 +50,14 @@ public class AddRestaurantActivity extends AppCompatActivity {
         mRestaurantAddressEditText = findViewById(R.id.restaurantAddressEditText);
         mCurrentAddressCheckbox = findViewById(R.id.addressCheckBox);
         mSubmitButton = findViewById(R.id.submitButton);
+
+        Spinner spinner = findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(this);
+
+        ArrayAdapter<CharSequence> dataAdapter = ArrayAdapter.createFromResource(this,
+                R.array.food_category, R.layout.spinner_item);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new AddRestaurantActivity.MyLocationListener();
@@ -103,6 +117,16 @@ public class AddRestaurantActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        mRestaurantCategory = parent.getItemAtPosition(position).toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
     private class MyLocationListener implements LocationListener {
