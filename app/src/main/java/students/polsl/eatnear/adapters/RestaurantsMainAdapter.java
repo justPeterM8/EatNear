@@ -12,7 +12,6 @@ import java.util.List;
 
 import students.polsl.eatnear.R;
 import students.polsl.eatnear.model.Restaurant;
-import students.polsl.eatnear.utilities.MapUtility;
 
 
 public class RestaurantsMainAdapter extends RecyclerView.Adapter<RestaurantsMainAdapter.RestaurantTileViewHolder> {

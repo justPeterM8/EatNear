@@ -43,7 +43,7 @@ public class AddRestaurantActivity extends AppCompatActivity {
         mRestaurantNameEditText = findViewById(R.id.restaurantNameEditText);
         mRestaurantAddressEditText = findViewById(R.id.restaurantAddressEditText);
         mCurrentAddressCheckbox = findViewById(R.id.addressCheckBox);
-        mSubmitButton = findViewById(R.id.submitButton);
+        mSubmitButton = findViewById(R.id.reviewSubmitButton);
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new AddRestaurantActivity.MyLocationListener();

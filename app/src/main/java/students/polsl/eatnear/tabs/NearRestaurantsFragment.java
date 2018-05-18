@@ -32,7 +32,7 @@ import students.polsl.eatnear.adapters.RestaurantsMainAdapter;
 import students.polsl.eatnear.fake_data.FakeRestaurantDataCreator;
 import students.polsl.eatnear.model.Restaurant;
 import students.polsl.eatnear.retrofit.EatNearClient;
-import students.polsl.eatnear.retrofit.RetrofitUtils;
+import students.polsl.eatnear.utilities.RetrofitUtils;
 
 public class NearRestaurantsFragment extends Fragment implements RestaurantsMainAdapter.RestaurantTileListener{
     private Context appContext;
@@ -70,7 +70,7 @@ public class NearRestaurantsFragment extends Fragment implements RestaurantsMain
         }
 
         //retrofit
-        eatNearClient = RetrofitUtils.createClient("http://9732222e.ngrok.io", EatNearClient.class);
+        eatNearClient = RetrofitUtils.createClient("http://72fd2ab6.ngrok.io", EatNearClient.class);
         Call<List<Restaurant>> callEatNear = eatNearClient.getNearRestaurantsInfo(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), 2000);
         mRecyclerView = rootView.findViewById(R.id.restaurant_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(appContext));
