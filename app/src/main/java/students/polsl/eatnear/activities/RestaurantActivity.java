@@ -10,7 +10,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,13 +30,10 @@ import retrofit2.Response;
 import students.polsl.eatnear.R;
 import students.polsl.eatnear.adapters.RestaurantsMainAdapter;
 import students.polsl.eatnear.adapters.ReviewsMainAdapter;
-import students.polsl.eatnear.fake_data.FakeRestaurantDataCreator;
 import students.polsl.eatnear.fake_data.FakeReviewDataCreator;
-import students.polsl.eatnear.model.Restaurant;
 import students.polsl.eatnear.model.Review;
 import students.polsl.eatnear.retrofit.EatNearClient;
-import students.polsl.eatnear.retrofit.RetrofitUtils;
-import students.polsl.eatnear.tabs.AllRestaurantsFragment;
+import students.polsl.eatnear.utilities.RetrofitUtils;
 
 public class RestaurantActivity extends AppCompatActivity implements OnMapReadyCallback, RestaurantsMainAdapter.RestaurantTileListener {
     private RecyclerView mRecyclerView;
@@ -62,7 +58,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         mRestaurantNameTextView.setText(intent.getStringExtra("name"));
 
         //retrofit
-        eatNearClient = RetrofitUtils.createClient("http://9732222e.ngrok.io", EatNearClient.class);
+        eatNearClient = RetrofitUtils.createClient("http://72fd2ab6.ngrok.io", EatNearClient.class);
         Call<List<Review>> callEatNear = eatNearClient.getReviewsForSpecificRestaurant(mRestaurantNameTextView.getText().toString());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -134,7 +130,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         @Override
         protected void onPostExecute(Response<List<Review>> postResponse) {//all user data available
             List<Review> responseRestaurant = postResponse.body();
-            if(responseRestaurant != null){//there is no response (no user found)
+            if(responseRestaurant != null){
                 mRestaurantsMainAdapter.swapData(responseRestaurant);
             }else
                 mRestaurantsMainAdapter.swapData(FakeReviewDataCreator.createReviewFakeDataList(10));

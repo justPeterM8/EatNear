@@ -8,7 +8,7 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
-public class MapUtility {
+public class MapUtils {
     public double[] getLocationFromAddress(Context context, String strAddress) {
 
         LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);

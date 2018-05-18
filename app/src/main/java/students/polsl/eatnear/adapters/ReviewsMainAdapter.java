@@ -34,9 +34,8 @@ public class ReviewsMainAdapter extends RecyclerView.Adapter<ReviewsMainAdapter.
     public void onBindViewHolder(ReviewTileViewHolder holder, int position) {
         holder.reviewAuthorTW.setText(data.get(position).getAuthor());
         holder.reviewDescriptionTW.setText(data.get(position).getDescription());
-        SimpleDateFormat dt1 = new SimpleDateFormat("YYYY-MM-dd");
-        holder.reviewDateTW.setText("Date: " + dt1.format(data.get(position).getDate()));
-        holder.reviewRating.setRating(data.get(position).getRating());
+        holder.reviewDateTW.setText("Date: " + (data.get(position).getDate()));
+        holder.reviewRating.setRating((float) data.get(position).getRating());
     }
 
     @Override

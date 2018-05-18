@@ -91,7 +91,6 @@
         app:layout_constraintStart_toEndOf="@+id/ratingTextView"
         app:layout_constraintTop_toTopOf="@+id/ratingImageView" />
 
-
     <Button
         android:id="@+id/submitButton"
         android:layout_width="match_parent"
@@ -100,6 +99,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:background="@android:color/white"
+        android:onClick="onClick"
         android:text="@string/submit_new_review_button_label"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp"
@@ -107,7 +107,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 </android.support.constraint.ConstraintLayout>
 

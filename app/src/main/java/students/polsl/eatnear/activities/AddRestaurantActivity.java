@@ -49,7 +49,7 @@ public class AddRestaurantActivity extends AppCompatActivity implements AdapterV
         mRestaurantNameEditText = findViewById(R.id.restaurantNameEditText);
         mRestaurantAddressEditText = findViewById(R.id.restaurantAddressEditText);
         mCurrentAddressCheckbox = findViewById(R.id.addressCheckBox);
-        mSubmitButton = findViewById(R.id.submitButton);
+        mSubmitButton = findViewById(R.id.reviewSubmitButton);
 
         Spinner spinner = findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
