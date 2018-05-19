@@ -104,9 +104,7 @@ public class AddRestaurantActivity extends AppCompatActivity implements AdapterV
             }
             mRestaurantName = mRestaurantNameEditText.getText().toString();
             mRestaurantAddress = mRestaurantAddressEditText.getText().toString();
-            Toast.makeText(this, "Restaurant has been added.", Toast.LENGTH_SHORT).show();
 
-            //dane dla restauracji:
             Restaurant restaurantToSave = new Restaurant(mRestaurantName, mAddressLatitude, mAddressLongitude, mRestaurantAddress, mRestaurantCategory);
             Call<Void> callEatNear = eatNearClient.createRestaurant(restaurantToSave);
             new AddRestaurantActivity.RestaurantCreationTask().execute(callEatNear);
