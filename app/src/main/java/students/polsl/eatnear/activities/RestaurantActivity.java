@@ -29,14 +29,13 @@ import retrofit2.Call;
 import retrofit2.Response;
 import students.polsl.eatnear.R;
 import students.polsl.eatnear.adapters.ReviewsMainAdapter;
-import students.polsl.eatnear.fake_data.FakeReviewDataCreator;
 import students.polsl.eatnear.model.Review;
 import students.polsl.eatnear.retrofit.EatNearClient;
 import students.polsl.eatnear.utilities.RetrofitUtils;
 
 public class RestaurantActivity extends AppCompatActivity implements OnMapReadyCallback {
     private RecyclerView mRecyclerView;
-    private ReviewsMainAdapter mRestaurantsMainAdapter;
+    private ReviewsMainAdapter mReviewsMainAdapter;
     private FloatingActionButton mActionButton;
     private TextView mRestaurantNameTextView;
     private TextView mRestaurantLocationTextView;
@@ -75,9 +74,9 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         mapFragment.getMapAsync(this);
         mRecyclerView = findViewById(R.id.review_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRestaurantsMainAdapter = new ReviewsMainAdapter(this);
+        mReviewsMainAdapter = new ReviewsMainAdapter(this);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setAdapter(mRestaurantsMainAdapter);
+        mRecyclerView.setAdapter(mReviewsMainAdapter);
 
         mActionButton.setOnClickListener(view -> {
             Intent startReviewActivity = new Intent(this, ReviewActivity.class);
@@ -133,12 +132,12 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
 
         @Override
         protected void onPostExecute(Response<List<Review>> postResponse) {//all user data available
-            List<Review> responseRestaurant = postResponse.body();
-            if(responseRestaurant != null){
-                mRestaurantsMainAdapter.swapData(responseRestaurant);
+            List<Review> responseReview = postResponse.body();
+            if(responseReview != null){//no data available
+                mReviewsMainAdapter.swapData(responseReview);
+                mRecyclerView.setVisibility(View.VISIBLE);
             }else
-                mRestaurantsMainAdapter.swapData(FakeReviewDataCreator.createReviewFakeDataList(10));
-
+                mRecyclerView.setVisibility(View.INVISIBLE);
         }
     }
 }
