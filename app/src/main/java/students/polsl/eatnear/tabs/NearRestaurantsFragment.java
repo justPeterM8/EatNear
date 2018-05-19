@@ -51,7 +51,7 @@ public class NearRestaurantsFragment extends Fragment implements RestaurantsMain
     @Override
     public void onStart() {
         super.onStart();
-        Call<List<Restaurant>>  call = eatNearClient.getAllRestaurantsInfo(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+        Call<List<Restaurant>>  call = eatNearClient.getNearRestaurantsInfo(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), 2000);
         new NearRestaurantsFragment.GetAllRestaurantsInfo().execute(call);
     }
 
@@ -171,8 +171,9 @@ public class NearRestaurantsFragment extends Fragment implements RestaurantsMain
             List<Restaurant> responseRestaurant = postResponse.body();
             if(responseRestaurant != null){//there is no response (no user found)
                 mRestaurantsMainAdapter.swapData(responseRestaurant);
+                mRecyclerView.setVisibility(View.VISIBLE);
             }else
-                mRestaurantsMainAdapter.swapData(FakeRestaurantDataCreator.createRestaurantFakeDataList(10));
+                mRecyclerView.setVisibility(View.INVISIBLE);
 
         }
     }

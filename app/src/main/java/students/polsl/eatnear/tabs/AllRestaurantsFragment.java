@@ -78,10 +78,6 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
             Toast.makeText(appContext, "No GPS permission", Toast.LENGTH_SHORT).show();
         }
 
-        //retrofit
-        /*eatNearClient = RetrofitUtils.createClient("http://e72fd782.ngrok.io", EatNearClient.class);
-        mCallGetRestaurants = eatNearClient.getAllRestaurantsInfo(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());*/
-
         mRecyclerView = rootView.findViewById(R.id.restaurant_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(appContext));
         mRestaurantsMainAdapter = new RestaurantsMainAdapter(this, appContext);
@@ -169,8 +165,9 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
             List<Restaurant> responseRestaurant = postResponse.body();
             if(responseRestaurant != null){//there is no response (no user found)
                 mRestaurantsMainAdapter.swapData(responseRestaurant);
+                mRecyclerView.setVisibility(View.VISIBLE);
             }else
-                mRestaurantsMainAdapter.swapData(FakeRestaurantDataCreator.createRestaurantFakeDataList(20));
+                mRecyclerView.setVisibility(View.INVISIBLE);
 
         }
     }

@@ -27,7 +27,7 @@ public class DateUtils {
         Calendar calendar = Calendar.getInstance();
         try {
             return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(String.format("%s-%s-%s",String.valueOf(calendar.get(calendar.YEAR)),
-            String.valueOf(calendar.get(calendar.MONTH)),
+            String.valueOf(calendar.get(calendar.MONTH) + 1),
             String.valueOf(calendar.get(calendar.DAY_OF_MONTH))));
         } catch (ParseException e) {
             e.printStackTrace();
