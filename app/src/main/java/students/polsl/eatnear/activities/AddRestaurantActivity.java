@@ -79,27 +79,31 @@ public class AddRestaurantActivity extends AppCompatActivity implements AdapterV
                 mRestaurantAddressEditText.setHint("Address");
             }
         });
+    }
 
-        mSubmitButton.setOnClickListener(view -> {
-            if ( (!TextUtils.isEmpty(mRestaurantNameEditText.getText().toString())) && (!TextUtils.isEmpty(mRestaurantAddressEditText.getText().toString())) ) {
-                if (!mCurrentAddressCheckbox.isChecked()) {
-                    if (!getAddressCoordinates()) {
-                        Toast.makeText(this, "Given address is wrong.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                } else{
-                    if (mRestaurantAddressEditText.getText().toString().equals("Waiting for GPS signal...")){
-                        Toast.makeText(this, "Waiting for GPS signal...", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+    public void onClickRestaurant(View view){
+        if ( (!TextUtils.isEmpty(mRestaurantNameEditText.getText().toString())) && (!TextUtils.isEmpty(mRestaurantAddressEditText.getText().toString())) ) {
+            if (!mCurrentAddressCheckbox.isChecked()) {
+                if (!getAddressCoordinates()) {
+                    Toast.makeText(this, "Given address is wrong.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                mRestaurantName = mRestaurantNameEditText.getText().toString();
-                mRestaurantAddress = mRestaurantAddressEditText.getText().toString();
-                Toast.makeText(this, "Restaurant has been added.", Toast.LENGTH_SHORT).show();
-                finish();
-            } else
-                Toast.makeText(this, "Wrong data. Please, fill all fields.", Toast.LENGTH_LONG).show();
-        });
+            } else{
+                if (mRestaurantAddressEditText.getText().toString().equals("Waiting for GPS signal...")){
+                    Toast.makeText(this, "Waiting for GPS signal...", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            mRestaurantName = mRestaurantNameEditText.getText().toString();
+            mRestaurantAddress = mRestaurantAddressEditText.getText().toString();
+            Toast.makeText(this, "Restaurant has been added.", Toast.LENGTH_SHORT).show();
+
+            //dane dla restauracji:
+            //mRestaurantName, mRestaurantAddress, mRestaurantCategory, mAddressLatitude, mAddressLongitude
+
+            finish();
+        } else
+            Toast.makeText(this, "Wrong data. Please, fill all fields.", Toast.LENGTH_LONG).show();
     }
 
     private boolean getAddressCoordinates(){
@@ -109,7 +113,7 @@ public class AddRestaurantActivity extends AppCompatActivity implements AdapterV
             if (addresses.size() > 0) {
                 mAddressLatitude = addresses.get(0).getLatitude();
                 mAddressLongitude = addresses.get(0).getLongitude();
-                Log.i("AddRestaurantActivity", "" + mAddressLatitude + " , " + mAddressLongitude);
+                //Log.i("AddRestaurantActivity", "" + mAddressLatitude + " , " + mAddressLongitude);
                 return true;
             } else
                 return false;
@@ -144,8 +148,11 @@ public class AddRestaurantActivity extends AppCompatActivity implements AdapterV
                 e.printStackTrace();
             }
 
-            if (mCurrentAddressCheckbox.isChecked() && addresses != null)
+            if (mCurrentAddressCheckbox.isChecked() && addresses != null) {
                 mRestaurantAddressEditText.setText(addresses.get(0).getThoroughfare() + " " + addresses.get(0).getSubThoroughfare() + ", " + addresses.get(0).getLocality());
+                mAddressLongitude = longitude;
+                mAddressLatitude = latitude;
+            }
         }
 
         @Override
