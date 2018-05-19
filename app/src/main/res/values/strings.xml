@@ -24,4 +24,23 @@
         <item>Polish</item>
     </string-array>
 
+
+    <!-- shared preferences -->
+    <string name="pref_color_red_value" translatable="false">red</string>
+    <string name="pref_color_blue_value" translatable="false">blue</string>
+    <string name="pref_color_green_value" translatable="false">green</string>
+    <string name="notifications_activation_key">notifications_activation</string>
+    <string name="restaurant_types_key">restaurant_types</string>
+    <string name="restaurant_types_default_value">International</string>
+    <string name="near_area_key">near_area</string>
+    <string name="near_area_default_value">1000</string>
+    <string name="notifications_activation_summary_on">notifications active</string>
+    <string name="notifications_activation_summary_off">notifications inactive</string>
+    <string name="notificationsActivationTitle">turn on/off notifications</string>
+    <string name="restaurant_types_title">Types of restaurants in notifications</string>
+    <string name="near_area_title">Set "near area" distance (in meters)</string>
+    <string name="menu_title">go to settings</string>
+    <string name="action_settings">Settings</string>
+
+
 </resources>
