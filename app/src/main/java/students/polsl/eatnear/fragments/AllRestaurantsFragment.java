@@ -1,4 +1,4 @@
-package students.polsl.eatnear.tabs;
+package students.polsl.eatnear.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Response;
 import students.polsl.eatnear.activities.AddRestaurantActivity;
@@ -28,12 +29,11 @@ import students.polsl.eatnear.activities.MapActivity;
 import students.polsl.eatnear.R;
 import students.polsl.eatnear.activities.RestaurantActivity;
 import students.polsl.eatnear.adapters.RestaurantsMainAdapter;
-import students.polsl.eatnear.fake_data.FakeRestaurantDataCreator;
 import students.polsl.eatnear.model.Restaurant;
 import students.polsl.eatnear.retrofit.EatNearClient;
 import students.polsl.eatnear.utilities.RetrofitUtils;
 
-public class AllRestaurantsFragment extends Fragment implements RestaurantsMainAdapter.RestaurantTileListener{
+public class AllRestaurantsFragment extends Fragment implements RestaurantsMainAdapter.RestaurantTileListener {
     private Context appContext;
     private RecyclerView mRecyclerView;
     private RestaurantsMainAdapter mRestaurantsMainAdapter;
@@ -51,7 +51,7 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
     @Override
     public void onStart() {
         super.onStart();
-        Call<List<Restaurant>>  call = eatNearClient.getAllRestaurantsInfo(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+        Call<List<Restaurant>> call = eatNearClient.getAllRestaurantsInfo(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
         new GetAllRestaurantsInfo().execute(call);
     }
 
@@ -73,7 +73,7 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
         if (ContextCompat.checkSelfPermission(appContext, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(appContext, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100000, 10, locationListener);
-             mCurrentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            mCurrentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         } else {
             Toast.makeText(appContext, "No GPS permission", Toast.LENGTH_SHORT).show();
         }
@@ -152,9 +152,9 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
         @Override
         protected Response<List<Restaurant>> doInBackground(Call<List<Restaurant>>[] calls) {
             Response<List<Restaurant>> response = null;
-            try{
+            try {
                 response = calls[0].execute();
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             return response;
@@ -163,10 +163,10 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
         @Override
         protected void onPostExecute(Response<List<Restaurant>> postResponse) {//all user data available
             List<Restaurant> responseRestaurant = postResponse.body();
-            if(responseRestaurant != null){//there is no response (no user found)
+            if (responseRestaurant != null) {//there is no response (no user found)
                 mRestaurantsMainAdapter.swapData(responseRestaurant);
                 mRecyclerView.setVisibility(View.VISIBLE);
-            }else
+            } else
                 mRecyclerView.setVisibility(View.INVISIBLE);
 
         }

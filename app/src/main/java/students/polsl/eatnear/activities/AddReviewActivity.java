@@ -25,7 +25,7 @@ import students.polsl.eatnear.retrofit.EatNearClient;
 import students.polsl.eatnear.utilities.RetrofitUtils;
 import students.polsl.eatnear.utilities.DateUtils;
 
-public class ReviewActivity extends AppCompatActivity {
+public class AddReviewActivity extends AppCompatActivity {
     private Button mSubmitButton;
     private RatingBar mRatingBar;
     private EditText mCustomerEditText;
@@ -113,9 +113,9 @@ public class ReviewActivity extends AppCompatActivity {
         protected void onPostExecute(Response<Void> postResponse) {//all user data available
             postResponse.body();
             if (postResponse.isSuccessful()) {
-                Toast.makeText(ReviewActivity.this, "Review has been added.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddReviewActivity.this, "Review has been added.", Toast.LENGTH_SHORT).show();
             } else//no such restaurant (what would be weird, because we add review comming from restaurant's activity)
-                Toast.makeText(ReviewActivity.this, "Data conflict", Toast.LENGTH_LONG).show();
+                Toast.makeText(AddReviewActivity.this, "Data conflict", Toast.LENGTH_LONG).show();
         }
     }
 }

@@ -1,8 +1,7 @@
 package students.polsl.eatnear.activities;
 
-import android.*;
-import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -16,13 +15,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
-import students.polsl.eatnear.*;
 import students.polsl.eatnear.R;
-import students.polsl.eatnear.tabs.AllRestaurantsFragment;
-import students.polsl.eatnear.tabs.NearRestaurantsFragment;
+import students.polsl.eatnear.fragments.AllRestaurantsFragment;
+import students.polsl.eatnear.fragments.NearRestaurantsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -118,6 +117,24 @@ public class MainActivity extends AppCompatActivity {
         if (!isGpsActive()){
             Toast.makeText(this, "This app requires active GPS", Toast.LENGTH_SHORT).show();
             finish();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.settings_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.action_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

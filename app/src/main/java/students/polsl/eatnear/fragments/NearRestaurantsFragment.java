@@ -1,19 +1,22 @@
-package students.polsl.eatnear.tabs;
+package students.polsl.eatnear.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,12 +32,11 @@ import students.polsl.eatnear.activities.MapActivity;
 import students.polsl.eatnear.R;
 import students.polsl.eatnear.activities.RestaurantActivity;
 import students.polsl.eatnear.adapters.RestaurantsMainAdapter;
-import students.polsl.eatnear.fake_data.FakeRestaurantDataCreator;
 import students.polsl.eatnear.model.Restaurant;
 import students.polsl.eatnear.retrofit.EatNearClient;
 import students.polsl.eatnear.utilities.RetrofitUtils;
 
-public class NearRestaurantsFragment extends Fragment implements RestaurantsMainAdapter.RestaurantTileListener{
+public class NearRestaurantsFragment extends Fragment implements RestaurantsMainAdapter.RestaurantTileListener {
     private Context appContext;
     private RecyclerView mRecyclerView;
     private RestaurantsMainAdapter mRestaurantsMainAdapter;
@@ -46,12 +48,14 @@ public class NearRestaurantsFragment extends Fragment implements RestaurantsMain
 
     private boolean mIsFabOpen;
 
-    public NearRestaurantsFragment() {}
+    public NearRestaurantsFragment() {
+    }
 
     @Override
     public void onStart() {
         super.onStart();
-        Call<List<Restaurant>>  call = eatNearClient.getNearRestaurantsInfo(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), 2000);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(appContext);
+        Call<List<Restaurant>> call = eatNearClient.getNearRestaurantsInfo(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), Integer.valueOf(sharedPreferences.getString(appContext.getString(R.string.near_area_key), "1000")));
         new NearRestaurantsFragment.GetAllRestaurantsInfo().execute(call);
     }
 
@@ -78,20 +82,15 @@ public class NearRestaurantsFragment extends Fragment implements RestaurantsMain
             Toast.makeText(appContext, "No GPS permission", Toast.LENGTH_SHORT).show();
         }
 
-        //retrofit
-        eatNearClient = RetrofitUtils.createClient("http://e72fd782.ngrok.io", EatNearClient.class);
-        Call<List<Restaurant>> callEatNear = eatNearClient.getNearRestaurantsInfo(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), 2000);
-
         mRecyclerView = rootView.findViewById(R.id.restaurant_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(appContext));
         mRestaurantsMainAdapter = new RestaurantsMainAdapter(this, appContext);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mRestaurantsMainAdapter);
-        new NearRestaurantsFragment.GetAllRestaurantsInfo().execute(callEatNear);
         mMenuActionButton.setOnClickListener(view -> {
-            if(!mIsFabOpen){
+            if (!mIsFabOpen) {
                 showFabMenu();
-            }else{
+            } else {
                 closeFabMenu();
             }
         });
@@ -103,19 +102,20 @@ public class NearRestaurantsFragment extends Fragment implements RestaurantsMain
 
         mMapActionButton.setOnClickListener(view -> {
             Intent startMapActivity = new Intent(appContext, MapActivity.class);
+            List<Restaurant> restaurants = null;
             startActivity(startMapActivity);
         });
 
         return rootView;
     }
 
-    private void showFabMenu(){
+    private void showFabMenu() {
         mIsFabOpen = true;
         mAddActionButton.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
         mMapActionButton.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
     }
 
-    private void closeFabMenu(){
+    private void closeFabMenu() {
         mIsFabOpen = false;
         mAddActionButton.animate().translationY(0);
         mMapActionButton.animate().translationY(0);
@@ -158,9 +158,9 @@ public class NearRestaurantsFragment extends Fragment implements RestaurantsMain
         @Override
         protected Response<List<Restaurant>> doInBackground(Call<List<Restaurant>>[] calls) {
             Response<List<Restaurant>> response = null;
-            try{
+            try {
                 response = calls[0].execute();
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             return response;
@@ -169,10 +169,10 @@ public class NearRestaurantsFragment extends Fragment implements RestaurantsMain
         @Override
         protected void onPostExecute(Response<List<Restaurant>> postResponse) {//all user data available
             List<Restaurant> responseRestaurant = postResponse.body();
-            if(responseRestaurant != null){//there is no response (no user found)
+            if (responseRestaurant != null) {//there is no response (no user found)
                 mRestaurantsMainAdapter.swapData(responseRestaurant);
                 mRecyclerView.setVisibility(View.VISIBLE);
-            }else
+            } else
                 mRecyclerView.setVisibility(View.INVISIBLE);
 
         }

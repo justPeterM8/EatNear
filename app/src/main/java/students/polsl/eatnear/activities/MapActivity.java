@@ -7,9 +7,11 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -21,11 +23,22 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 import students.polsl.eatnear.R;
+import students.polsl.eatnear.fragments.AllRestaurantsFragment;
+import students.polsl.eatnear.model.Restaurant;
+import students.polsl.eatnear.retrofit.EatNearClient;
+import students.polsl.eatnear.utilities.RetrofitUtils;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap mGoogleMap;
     private ProgressBar mProgressBar;
+    private EatNearClient eatNearClient;
+    private List<Restaurant> restaurants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +53,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new MapActivity.MyLocationListener();
+        eatNearClient = RetrofitUtils.createClient("http://e72fd782.ngrok.io", EatNearClient.class);
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -51,13 +65,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng location = new LatLng(50.39850089999999, 18.619241099999954);
-        LatLng location2 = new LatLng(50.402371, 18.634327999999982);
-        googleMap.addMarker(new MarkerOptions().position(location)
-                .title("Restaurant"));
-        googleMap.addMarker(new MarkerOptions().position(location2)
-                .title("Restaurant2"));
-        mGoogleMap = googleMap;
+            /*for (Restaurant restaurant : mRestaurants) {
+                LatLng location = new LatLng(restaurant.getLocalizationLatitude(), restaurant.getLocalizationLongitude());
+                googleMap.addMarker(new MarkerOptions().position(location)
+                        .title(restaurant.getName()));
+            }
+        mGoogleMap = googleMap;*/
     }
 
     private class MyLocationListener implements LocationListener {
@@ -89,12 +102,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onResume() {
         super.onResume();
 
-        if (!isNetworkConnected()){
+        if (!isNetworkConnected()) {
             Toast.makeText(this, "This app requires Internet connection", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, WelcomeActivity.class));
         }
 
-        if (!isGpsActive()){
+        if (!isGpsActive()) {
             Toast.makeText(this, "This app requires active GPS", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, WelcomeActivity.class));
         }
@@ -105,7 +118,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return cm.getActiveNetworkInfo() != null;
     }
 
-    private boolean isGpsActive(){
+    private boolean isGpsActive() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }

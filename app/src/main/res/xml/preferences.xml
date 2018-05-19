@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="@bool/notifications_activation_default_value"
+        android:key="@string/notifications_activation_key"
+        android:summaryOff="@string/notifications_activation_summary_off"
+        android:summaryOn="@string/notifications_activation_summary_on"
+        android:title="@string/notificationsActivationTitle" />
+
+    <ListPreference
+        android:defaultValue="@string/restaurant_types_default_value"
+        android:title="@string/restaurant_types_title"
+        android:key="@string/restaurant_types_key"
+        android:entries="@array/food_category"
+        android:entryValues="@array/food_category" />
+
+    <EditTextPreference
+        android:defaultValue= "@string/near_area_default_value"
+        android:title="@string/near_area_title"
+        android:key="@string/near_area_key"
+        android:inputType="number"/>
+</PreferenceScreen>

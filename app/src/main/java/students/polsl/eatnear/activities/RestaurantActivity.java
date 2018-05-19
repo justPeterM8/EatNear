@@ -48,8 +48,8 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     public void onStart() {
         super.onStart();
-        Call<List<Review>> callEatNear = eatNearClient.getReviewsForSpecificRestaurant(mRestaurantNameTextView.getText().toString());
-        new RestaurantActivity.GetAllReviewsTask().execute(callEatNear);
+            Call<List<Review>> callEatNear = eatNearClient.getReviewsForSpecificRestaurant(mRestaurantNameTextView.getText().toString());
+            new RestaurantActivity.GetAllReviewsTask().execute(callEatNear);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         mRecyclerView.setAdapter(mReviewsMainAdapter);
 
         mActionButton.setOnClickListener(view -> {
-            Intent startReviewActivity = new Intent(this, ReviewActivity.class);
+            Intent startReviewActivity = new Intent(this, AddReviewActivity.class);
             startReviewActivity.putExtra("name", intent.getStringExtra("name"));
             startActivity(startReviewActivity);
         });

@@ -222,8 +222,8 @@ public class AddRestaurantActivity extends AppCompatActivity implements AdapterV
             postResponse.body();
             if (postResponse.isSuccessful()) {
                 Toast.makeText(AddRestaurantActivity.this, "Restaurant added successfully", Toast.LENGTH_SHORT).show();
-            } else//no such restaurant (what would be weird, because we add review coming from restaurant's activity)
-                Toast.makeText(AddRestaurantActivity.this, "Restaurant creation failed, try again", Toast.LENGTH_LONG).show();
+            } else//no such restaurant (what would be weird, because we add review comming from restaurant's activity)
+                Toast.makeText(AddRestaurantActivity.this, "Restaurant creation failed, try again ", Toast.LENGTH_LONG).show();
         }
     }
 }

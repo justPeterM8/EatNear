@@ -3,9 +3,10 @@ package students.polsl.eatnear.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Restaurant {
+public class Restaurant implements Serializable{
     @SerializedName("name")
     private String name;
 
