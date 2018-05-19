@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -24,18 +25,22 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Response;
 import students.polsl.eatnear.R;
+import students.polsl.eatnear.model.Restaurant;
+import students.polsl.eatnear.retrofit.EatNearClient;
+import students.polsl.eatnear.utilities.RetrofitUtils;
 
 public class AddRestaurantActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private EditText mRestaurantNameEditText;
     private EditText mRestaurantAddressEditText;
     private CheckBox mCurrentAddressCheckbox;
     private Button mSubmitButton;
-
+    private EatNearClient eatNearClient;
     private String mRestaurantName;
     private String mRestaurantAddress;
     private String mRestaurantCategory;
@@ -53,6 +58,9 @@ public class AddRestaurantActivity extends AppCompatActivity implements AdapterV
 
         Spinner spinner = findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
+
+        //retrofit
+        eatNearClient = RetrofitUtils.createClient("http://e72fd782.ngrok.io", EatNearClient.class);
 
         ArrayAdapter<CharSequence> dataAdapter = ArrayAdapter.createFromResource(this,
                 R.array.food_category, R.layout.spinner_item);
@@ -99,8 +107,9 @@ public class AddRestaurantActivity extends AppCompatActivity implements AdapterV
             Toast.makeText(this, "Restaurant has been added.", Toast.LENGTH_SHORT).show();
 
             //dane dla restauracji:
-            //mRestaurantName, mRestaurantAddress, mRestaurantCategory, mAddressLatitude, mAddressLongitude
-
+            Restaurant restaurantToSave = new Restaurant(mRestaurantName, mAddressLatitude, mAddressLongitude, mRestaurantAddress, mRestaurantCategory);
+            Call<Void> callEatNear = eatNearClient.createRestaurant(restaurantToSave);
+            new AddRestaurantActivity.RestaurantCreationTask().execute(callEatNear);
             finish();
         } else
             Toast.makeText(this, "Wrong data. Please, fill all fields.", Toast.LENGTH_LONG).show();
@@ -194,5 +203,27 @@ public class AddRestaurantActivity extends AppCompatActivity implements AdapterV
     private boolean isGpsActive(){
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
+
+    public class RestaurantCreationTask extends AsyncTask<Call<Void>, Void, Response<Void>> {
+        @Override
+        protected Response<Void> doInBackground(Call<Void>[] calls) {
+            Response<Void> response = null;
+            try {
+                response = calls[0].execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(Response<Void> postResponse) {//all user data available
+            postResponse.body();
+            if (postResponse.isSuccessful()) {
+                Toast.makeText(AddRestaurantActivity.this, "Restaurant added successfully", Toast.LENGTH_SHORT).show();
+            } else//no such restaurant (what would be weird, because we add review coming from restaurant's activity)
+                Toast.makeText(AddRestaurantActivity.this, "Restaurant creation failed, try again", Toast.LENGTH_LONG).show();
+        }
     }
 }

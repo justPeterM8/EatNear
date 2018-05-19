@@ -21,8 +21,6 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
-
 import retrofit2.Call;
 import retrofit2.Response;
 import students.polsl.eatnear.activities.AddRestaurantActivity;
@@ -46,9 +44,15 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
     private EatNearClient eatNearClient;
     private Location mCurrentLocation;
     private boolean mIsFabOpen;
-    private Logger logger = Logger.getLogger(this.getClass().getSimpleName());
 
     public AllRestaurantsFragment() {
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Call<List<Restaurant>>  call = eatNearClient.getAllRestaurantsInfo(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+        new GetAllRestaurantsInfo().execute(call);
     }
 
     @Nullable
@@ -60,6 +64,8 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
         mMenuActionButton = rootView.findViewById(R.id.fabMenu);
         mAddActionButton = rootView.findViewById(R.id.fabAdd);
         mMapActionButton = rootView.findViewById(R.id.fabMap);
+
+        eatNearClient = RetrofitUtils.createClient("http://e72fd782.ngrok.io", EatNearClient.class);
 
         LocationManager locationManager = (LocationManager) appContext.getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new AllRestaurantsFragment.MyLocationListener();
@@ -73,15 +79,14 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
         }
 
         //retrofit
-        eatNearClient = RetrofitUtils.createClient("http://72fd2ab6.ngrok.io", EatNearClient.class);
-        Call<List<Restaurant>> callEatNear = eatNearClient.getAllRestaurantsInfo(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+        /*eatNearClient = RetrofitUtils.createClient("http://e72fd782.ngrok.io", EatNearClient.class);
+        mCallGetRestaurants = eatNearClient.getAllRestaurantsInfo(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());*/
 
         mRecyclerView = rootView.findViewById(R.id.restaurant_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(appContext));
         mRestaurantsMainAdapter = new RestaurantsMainAdapter(this, appContext);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mRestaurantsMainAdapter);
-        new GetAllRestaurantsInfo().execute(callEatNear);
 
         mMenuActionButton.setOnClickListener(view -> {
             if (!mIsFabOpen) {
@@ -116,10 +121,12 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
     }
 
     @Override
-    public void onClickAction(View view) {
+    public void onClickAction(View view, double[] latLong) {
         Intent startRestaurantActivity = new Intent(appContext, RestaurantActivity.class);
         startRestaurantActivity.putExtra("location", "" + view.getTag(R.id.addressTextView));
         startRestaurantActivity.putExtra("name", "" + view.getTag(R.id.restaurantNameTextView));
+        startRestaurantActivity.putExtra("latitude", latLong[0]);
+        startRestaurantActivity.putExtra("longitude", latLong[1]);
         startActivity(startRestaurantActivity);
     }
 

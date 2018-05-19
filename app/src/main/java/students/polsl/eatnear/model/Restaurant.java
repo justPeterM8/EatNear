@@ -21,11 +21,24 @@ public class Restaurant {
     @SerializedName("address")
     private String address;
 
+    @SerializedName("restaurantType")
+    private String restaurantType;
+
     @SerializedName("overallRating")
     private float overallRating;
 
     @SerializedName("reviews")
     private List<Review> reviews;
+
+    public Restaurant(){}
+
+    public Restaurant(String name, double localizationLatitude, double localizationLongitude, String address, String restaurantType) {
+        this.name = name;
+        this.localizationLongitude = localizationLongitude;
+        this.localizationLatitude = localizationLatitude;
+        this.address = address;
+        this.restaurantType = restaurantType;
+    }
 
     public String getName() {
         return name;

@@ -28,21 +28,30 @@ import java.util.logging.Logger;
 import retrofit2.Call;
 import retrofit2.Response;
 import students.polsl.eatnear.R;
-import students.polsl.eatnear.adapters.RestaurantsMainAdapter;
 import students.polsl.eatnear.adapters.ReviewsMainAdapter;
 import students.polsl.eatnear.fake_data.FakeReviewDataCreator;
 import students.polsl.eatnear.model.Review;
 import students.polsl.eatnear.retrofit.EatNearClient;
 import students.polsl.eatnear.utilities.RetrofitUtils;
 
-public class RestaurantActivity extends AppCompatActivity implements OnMapReadyCallback, RestaurantsMainAdapter.RestaurantTileListener {
+public class RestaurantActivity extends AppCompatActivity implements OnMapReadyCallback {
     private RecyclerView mRecyclerView;
     private ReviewsMainAdapter mRestaurantsMainAdapter;
     private FloatingActionButton mActionButton;
     private TextView mRestaurantNameTextView;
     private TextView mRestaurantLocationTextView;
     private EatNearClient eatNearClient;
+    private double locLatitude;
+    private double locLongitude;
     private Logger logger = Logger.getLogger(this.getClass().getSimpleName());
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Call<List<Review>> callEatNear = eatNearClient.getReviewsForSpecificRestaurant(mRestaurantNameTextView.getText().toString());
+        new RestaurantActivity.GetAllReviewsTask().execute(callEatNear);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +65,10 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         logger.info(intent.getStringExtra("location"));
         mRestaurantLocationTextView.setText(intent.getStringExtra("location"));
         mRestaurantNameTextView.setText(intent.getStringExtra("name"));
+        locLatitude = intent.getDoubleExtra("latitude", 0);
+        locLongitude = intent.getDoubleExtra("longitude", 0);
 
-        //retrofit
-        eatNearClient = RetrofitUtils.createClient("http://72fd2ab6.ngrok.io", EatNearClient.class);
-        Call<List<Review>> callEatNear = eatNearClient.getReviewsForSpecificRestaurant(mRestaurantNameTextView.getText().toString());
+        eatNearClient = RetrofitUtils.createClient("http://e72fd782.ngrok.io", EatNearClient.class);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -69,7 +78,6 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         mRestaurantsMainAdapter = new ReviewsMainAdapter(this);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mRestaurantsMainAdapter);
-        new RestaurantActivity.GetAllRestaurantsInfo().execute(callEatNear);
 
         mActionButton.setOnClickListener(view -> {
             Intent startReviewActivity = new Intent(this, ReviewActivity.class);
@@ -80,14 +88,10 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng location = new LatLng(50.39850089999999, 18.619241099999954);
+        LatLng location = new LatLng(locLatitude, locLongitude);
         googleMap.addMarker(new MarkerOptions().position(location)
-                .title("Restaurant name"));
+                .title(mRestaurantNameTextView.getText().toString()));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,15));
-    }
-
-    @Override
-    public void onClickAction(View view) {
     }
 
     @Override
@@ -115,7 +119,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
-    public class GetAllRestaurantsInfo extends AsyncTask<Call<List<Review>>, Void, Response<List<Review>>> {
+    public class GetAllReviewsTask extends AsyncTask<Call<List<Review>>, Void, Response<List<Review>>> {
         @Override
         protected Response<List<Review>> doInBackground(Call<List<Review>>[] calls) {
             Response<List<Review>> response = null;

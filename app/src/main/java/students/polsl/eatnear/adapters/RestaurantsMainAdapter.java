@@ -20,7 +20,7 @@ public class RestaurantsMainAdapter extends RecyclerView.Adapter<RestaurantsMain
     private List<Restaurant> data;
 
     public interface RestaurantTileListener{
-        void onClickAction(View view);
+        void onClickAction(View view, double[] latLong);
     }
 
     public RestaurantsMainAdapter(RestaurantTileListener listener, Context context){
@@ -40,7 +40,8 @@ public class RestaurantsMainAdapter extends RecyclerView.Adapter<RestaurantsMain
         holder.itemView.setTag(position);
         holder.itemView.setTag(R.id.addressTextView, data.get(position).getAddress());
         holder.itemView.setTag(R.id.restaurantNameTextView, data.get(position).getName());
-
+        holder.setLocalizationSpecifics(data.get(position).getLocalizationLatitude(),
+                data.get(position).getLocalizationLongitude());
         holder.restaurantNameTW.setText(data.get(position).getName());
         holder.restaurantDistanceTW.setText("Distance: " + data.get(position).getDistance());
         holder.restaurantRating.setRating(data.get(position).getOverallRating());
@@ -61,6 +62,7 @@ public class RestaurantsMainAdapter extends RecyclerView.Adapter<RestaurantsMain
         private TextView restaurantNameTW;
         private TextView restaurantDistanceTW;
         private RatingBar restaurantRating;
+        private double[] latLong;
 
         public RestaurantTileViewHolder(View itemView) {
             super(itemView);
@@ -69,10 +71,13 @@ public class RestaurantsMainAdapter extends RecyclerView.Adapter<RestaurantsMain
             this.restaurantRating = itemView.findViewById(R.id.restaurantRatingBar);
             itemView.setOnClickListener(this);
         }
+        private void setLocalizationSpecifics(double latitude, double longitude){
+            this.latLong = new double[] {latitude, longitude};
+        }
 
         @Override
         public void onClick(View view) {
-            restaurantListener.onClickAction(view);
+            restaurantListener.onClickAction(view, latLong);
         }
     }
 }

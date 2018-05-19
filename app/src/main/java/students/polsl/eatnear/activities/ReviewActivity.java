@@ -49,7 +49,7 @@ public class ReviewActivity extends AppCompatActivity {
         mRestaurantNameTextView = findViewById(R.id.restaurantNameTextView);
 
         //retrofit
-        eatNearClient = RetrofitUtils.createClient("http://72fd2ab6.ngrok.io", EatNearClient.class);
+        eatNearClient = RetrofitUtils.createClient("http://e72fd782.ngrok.io", EatNearClient.class);
 
         Intent intent = getIntent();
         mRestaurantNameTextView.setText(intent.getStringExtra("name"));
@@ -65,7 +65,7 @@ public class ReviewActivity extends AppCompatActivity {
 
                 Review reviewToSave = new Review(mReview, mCustomer, mRating, DateUtils.convertDateToString(DateUtils.createTodaysDate()));
                 Call<Void> callEatNear = eatNearClient.createReview(mRestaurantNameTextView.getText().toString(), reviewToSave);
-                new ReviewActivity.RestaurantCreationTask().execute(callEatNear);
+                new ReviewCreationTask().execute(callEatNear);
                 finish();
             } else
                 Toast.makeText(this, "Wrong data. Please, fill all fields.", Toast.LENGTH_LONG).show();
@@ -97,7 +97,7 @@ public class ReviewActivity extends AppCompatActivity {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
-    public class RestaurantCreationTask extends AsyncTask<Call<Void>, Void, Response<Void>> {
+    public class ReviewCreationTask extends AsyncTask<Call<Void>, Void, Response<Void>> {
         @Override
         protected Response<Void> doInBackground(Call<Void>[] calls) {
             Response<Void> response = null;

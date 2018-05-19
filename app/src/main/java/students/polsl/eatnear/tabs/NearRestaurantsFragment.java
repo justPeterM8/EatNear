@@ -48,6 +48,13 @@ public class NearRestaurantsFragment extends Fragment implements RestaurantsMain
 
     public NearRestaurantsFragment() {}
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        Call<List<Restaurant>>  call = eatNearClient.getAllRestaurantsInfo(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+        new NearRestaurantsFragment.GetAllRestaurantsInfo().execute(call);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,6 +64,8 @@ public class NearRestaurantsFragment extends Fragment implements RestaurantsMain
         mMenuActionButton = rootView.findViewById(R.id.fabMenu);
         mAddActionButton = rootView.findViewById(R.id.fabAdd);
         mMapActionButton = rootView.findViewById(R.id.fabMap);
+
+        eatNearClient = RetrofitUtils.createClient("http://e72fd782.ngrok.io", EatNearClient.class);
 
         LocationManager locationManager = (LocationManager) appContext.getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new NearRestaurantsFragment.MyLocationListener();
@@ -70,8 +79,9 @@ public class NearRestaurantsFragment extends Fragment implements RestaurantsMain
         }
 
         //retrofit
-        eatNearClient = RetrofitUtils.createClient("http://72fd2ab6.ngrok.io", EatNearClient.class);
+        eatNearClient = RetrofitUtils.createClient("http://e72fd782.ngrok.io", EatNearClient.class);
         Call<List<Restaurant>> callEatNear = eatNearClient.getNearRestaurantsInfo(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), 2000);
+
         mRecyclerView = rootView.findViewById(R.id.restaurant_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(appContext));
         mRestaurantsMainAdapter = new RestaurantsMainAdapter(this, appContext);
@@ -112,11 +122,13 @@ public class NearRestaurantsFragment extends Fragment implements RestaurantsMain
     }
 
     @Override
-    public void onClickAction(View view) {
+    public void onClickAction(View view, double[] latLong) {
         //Toast.makeText(appContext, "Click registered on tile: " + view.getTag(), Toast.LENGTH_SHORT).show();
         Intent startRestaurantActivity = new Intent(appContext, RestaurantActivity.class);
         startRestaurantActivity.putExtra("location", "" + view.getTag(R.id.addressTextView));
         startRestaurantActivity.putExtra("name", "" + view.getTag(R.id.restaurantNameTextView));
+        startRestaurantActivity.putExtra("latitude", latLong[0]);
+        startRestaurantActivity.putExtra("longitude", latLong[1]);
         startActivity(startRestaurantActivity);
     }
 

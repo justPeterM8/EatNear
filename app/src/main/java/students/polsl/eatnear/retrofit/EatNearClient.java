@@ -17,10 +17,14 @@ public interface EatNearClient {
     @GET("/restaurants/near")
     Call<List<Restaurant>> getNearRestaurantsInfo(@Query("latitude") double latitude, @Query("longitude") double longitude, @Query("distance") long distance);
 
+    @POST("/restaurants")
+    Call<Void> createRestaurant(@Body Restaurant restaurant);
+
     @GET("/reviews")
     Call<List<Review>> getReviewsForSpecificRestaurant(@Query("restaurantName") String restaurantName);
 
     @POST("/reviews")
     Call<Void> createReview(@Query("restaurantName") String restaurantName, @Body Review review);
+
 
 }
