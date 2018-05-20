@@ -29,16 +29,17 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 import students.polsl.eatnear.R;
-import students.polsl.eatnear.fragments.AllRestaurantsFragment;
 import students.polsl.eatnear.model.Restaurant;
 import students.polsl.eatnear.retrofit.EatNearClient;
 import students.polsl.eatnear.utilities.RetrofitUtils;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
-    private GoogleMap mGoogleMap;
+    //private GoogleMap mGoogleMap;
     private ProgressBar mProgressBar;
     private EatNearClient eatNearClient;
     private List<Restaurant> restaurants;
+    private SupportMapFragment mMapFragment;
+    private Location mCurrentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,57 +47,70 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_map);
         mProgressBar = findViewById(R.id.progressBar);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        mMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
         mProgressBar.setVisibility(View.VISIBLE);
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        LocationListener locationListener = new MapActivity.MyLocationListener();
-        eatNearClient = RetrofitUtils.createClient("http://e72fd782.ngrok.io", EatNearClient.class);
+        //LocationListener locationListener = new MapActivity.MyLocationListener();
+        eatNearClient = RetrofitUtils.createClient("http://19e604c7.ngrok.io", EatNearClient.class);
+
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100000, 10, locationListener);
+            //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100000, 10, locationListener);
+            mCurrentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         } else {
             Toast.makeText(this, "No GPS permission", Toast.LENGTH_SHORT).show();
         }
+
+        Call<List<Restaurant>> call = eatNearClient.getAllRestaurantsInfo(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+        new GetAllRestaurantsInfo().execute(call);
+    }
+
+    private void getMapAsync(){
+        mMapFragment.getMapAsync(this);
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-            /*for (Restaurant restaurant : mRestaurants) {
+        LatLng currentLocation = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13));
+            for (Restaurant restaurant : restaurants) {
                 LatLng location = new LatLng(restaurant.getLocalizationLatitude(), restaurant.getLocalizationLongitude());
                 googleMap.addMarker(new MarkerOptions().position(location)
                         .title(restaurant.getName()));
             }
-        mGoogleMap = googleMap;*/
+        //mGoogleMap = googleMap;
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
 
-    private class MyLocationListener implements LocationListener {
-
-        @Override
-        public void onLocationChanged(final Location location) {
-            mProgressBar.setVisibility(View.INVISIBLE);
-            LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13));
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    }
+//    private class MyLocationListener implements LocationListener {
+//
+//        @Override
+//        public void onLocationChanged(final Location location) {
+////            mProgressBar.setVisibility(View.INVISIBLE);
+////            LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+////            if (mGoogleMap != null) {
+////                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13));
+////            }
+//        }
+//
+//        @Override
+//        public void onStatusChanged(String provider, int status, Bundle extras) {
+//
+//        }
+//
+//        @Override
+//        public void onProviderEnabled(String provider) {
+//
+//        }
+//
+//        @Override
+//        public void onProviderDisabled(String provider) {
+//
+//        }
+//    }
 
     @Override
     protected void onResume() {
@@ -121,5 +135,29 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private boolean isGpsActive() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
+
+    public class GetAllRestaurantsInfo extends AsyncTask<Call<List<Restaurant>>, Void, Response<List<Restaurant>>> {
+        @Override
+        protected Response<List<Restaurant>> doInBackground(Call<List<Restaurant>>[] calls) {
+            Response<List<Restaurant>> response = null;
+            try {
+                response = calls[0].execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(Response<List<Restaurant>> postResponse) {
+            List<Restaurant> responseRestaurant = postResponse.body();
+            if (responseRestaurant != null) {
+                restaurants = responseRestaurant;
+                getMapAsync();
+            } else{
+                finish();
+            }
+        }
     }
 }

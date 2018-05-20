@@ -49,7 +49,7 @@ public class AddReviewActivity extends AppCompatActivity {
         mRestaurantNameTextView = findViewById(R.id.restaurantNameTextView);
 
         //retrofit
-        eatNearClient = RetrofitUtils.createClient("http://e72fd782.ngrok.io", EatNearClient.class);
+        eatNearClient = RetrofitUtils.createClient("http://19e604c7.ngrok.io", EatNearClient.class);
 
         Intent intent = getIntent();
         mRestaurantNameTextView.setText(intent.getStringExtra("name"));

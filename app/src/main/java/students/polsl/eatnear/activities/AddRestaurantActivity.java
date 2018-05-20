@@ -60,7 +60,7 @@ public class AddRestaurantActivity extends AppCompatActivity implements AdapterV
         spinner.setOnItemSelectedListener(this);
 
         //retrofit
-        eatNearClient = RetrofitUtils.createClient("http://e72fd782.ngrok.io", EatNearClient.class);
+        eatNearClient = RetrofitUtils.createClient("http://19e604c7.ngrok.io", EatNearClient.class);
 
         ArrayAdapter<CharSequence> dataAdapter = ArrayAdapter.createFromResource(this,
                 R.array.food_category, R.layout.spinner_item);
