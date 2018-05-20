@@ -33,10 +33,10 @@
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.AddReviewActivity" />
         <activity android:name=".activities.AddRestaurantActivity" />
-        <activity android:name=".activities.MapActivity"></activity>
-        <activity
-            android:name=".activities.SettingsActivity"
+        <activity android:name=".activities.MapActivity" />
+        <activity android:name=".activities.SettingsActivity"
             android:label="@string/action_settings"
+            android:theme="@style/AppThemeWithBar"
             android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
