@@ -42,6 +42,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
+
+        <receiver
+            android:name=".utilities.NotificationReceiver"
+            android:enabled="true"
+            android:exported="false" >
+        </receiver>
+
     </application>
 
 </manifest>

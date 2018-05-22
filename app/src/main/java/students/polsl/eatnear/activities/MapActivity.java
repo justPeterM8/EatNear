@@ -34,7 +34,6 @@ import students.polsl.eatnear.retrofit.EatNearClient;
 import students.polsl.eatnear.utilities.RetrofitUtils;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
-    //private GoogleMap mGoogleMap;
     private ProgressBar mProgressBar;
     private EatNearClient eatNearClient;
     private List<Restaurant> restaurants;
@@ -52,13 +51,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mProgressBar.setVisibility(View.VISIBLE);
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        //LocationListener locationListener = new MapActivity.MyLocationListener();
         eatNearClient = RetrofitUtils.createClient("http://19e604c7.ngrok.io", EatNearClient.class);
 
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100000, 10, locationListener);
             mCurrentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         } else {
             Toast.makeText(this, "No GPS permission", Toast.LENGTH_SHORT).show();
@@ -81,36 +78,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 googleMap.addMarker(new MarkerOptions().position(location)
                         .title(restaurant.getName()));
             }
-        //mGoogleMap = googleMap;
         mProgressBar.setVisibility(View.INVISIBLE);
     }
-
-//    private class MyLocationListener implements LocationListener {
-//
-//        @Override
-//        public void onLocationChanged(final Location location) {
-////            mProgressBar.setVisibility(View.INVISIBLE);
-////            LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-////            if (mGoogleMap != null) {
-////                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13));
-////            }
-//        }
-//
-//        @Override
-//        public void onStatusChanged(String provider, int status, Bundle extras) {
-//
-//        }
-//
-//        @Override
-//        public void onProviderEnabled(String provider) {
-//
-//        }
-//
-//        @Override
-//        public void onProviderDisabled(String provider) {
-//
-//        }
-//    }
 
     @Override
     protected void onResume() {
@@ -156,6 +125,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 restaurants = responseRestaurant;
                 getMapAsync();
             } else{
+                Toast.makeText(MapActivity.this, "Connection problem. Map has been closed.", Toast.LENGTH_SHORT).show();
                 finish();
             }
         }

@@ -15,7 +15,7 @@
     <string name="customer_name">Customer</string>
     <string name="review">Review</string>
     <string name="rating">Rating</string>
-
+    
     <string-array name="food_category">
         <item>International</item>
         <item>Italian</item>

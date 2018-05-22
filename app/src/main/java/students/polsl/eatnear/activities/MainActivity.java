@@ -1,32 +1,57 @@
 package students.polsl.eatnear.activities;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.LocationManager;
+import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 import students.polsl.eatnear.R;
 import students.polsl.eatnear.fragments.AllRestaurantsFragment;
 import students.polsl.eatnear.fragments.NearRestaurantsFragment;
+import students.polsl.eatnear.utilities.NotificationReceiver;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+
+    private static final String RESTAURANT_NOTIFICATION_CHANNEL_ID = "restaurant_channel";
+    private static final int PENDINT_INTENT_REQUEST_CODE = 1000;
+    private static final int ACTION_LIST_REQUEST_CODE = 1001;
+    private static final int ACTION_MAP_REQUEST_CODE = 1002;
+    private static final int ALARM_HOUR = 19;
+    private static final int ALARM_MINUTE = 55;
+    public static final String NOTIFICATION_KEY = "notification";
+    public static final String NOTIFICATION_CHANNEL_NAME = "restaurant_notificaion channel";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+
+        checkPreferences();
     }
 
     private boolean isNetworkConnected() {
@@ -116,4 +143,136 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void scheduleNotification(Context context){
+
+        NotificationManager notificationManager = (NotificationManager)
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    RESTAURANT_NOTIFICATION_CHANNEL_ID,
+                    NOTIFICATION_CHANNEL_NAME,
+                    NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, RESTAURANT_NOTIFICATION_CHANNEL_ID)
+                .setColor(ContextCompat.getColor(context, R.color.colorAccent))
+                .setSmallIcon(R.drawable.ic_restaurant_icon)
+                .setLargeIcon(largeIcon(context))
+                .setContentTitle("It's time for dinner!")
+                .setContentText("Check out our restaurants.")
+                .setDefaults(Notification.DEFAULT_VIBRATE)
+                .setContentIntent(contentIntent(context))
+                .addAction(showRestaurantList(context))
+                .addAction(showRestaurantMap(context))
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setAutoCancel(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN
+                && Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            notificationBuilder.setPriority(NotificationCompat.PRIORITY_HIGH);
+        }
+
+        Notification notification = notificationBuilder.build();
+
+        Intent notificationIntent = new Intent(context, NotificationReceiver.class);
+        notificationIntent.setAction("" + PENDINT_INTENT_REQUEST_CODE);
+        notificationIntent.putExtra(NOTIFICATION_KEY, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, PENDINT_INTENT_REQUEST_CODE, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, ALARM_HOUR);
+        calendar.set(Calendar.MINUTE, ALARM_MINUTE);
+        calendar.set(Calendar.SECOND, 00);
+        long startUpTime = calendar.getTimeInMillis();
+        if (System.currentTimeMillis() > startUpTime) {
+            startUpTime = startUpTime + AlarmManager.INTERVAL_DAY;
+        }
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, startUpTime, 60*1000, pendingIntent);
+    }
+
+    private static PendingIntent contentIntent(Context context) {
+        Intent startMainActivity = new Intent(context, MainActivity.class);
+        return PendingIntent.getActivity(
+                context,
+                PENDINT_INTENT_REQUEST_CODE,
+                startMainActivity,
+                PendingIntent.FLAG_ONE_SHOT);
+    }
+
+    private static NotificationCompat.Action showRestaurantList(Context context) {
+        Intent showRestaurants = new Intent(context, MainActivity.class);
+        PendingIntent showRestaurantPendingIntent = PendingIntent.getActivity(
+                context,
+                ACTION_LIST_REQUEST_CODE,
+                showRestaurants,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        NotificationCompat.Action showRestaurantsAction = new NotificationCompat.Action(R.drawable.ic_list,
+                "Show restaurant list",
+                showRestaurantPendingIntent);
+
+        return showRestaurantsAction;
+    }
+
+    private static NotificationCompat.Action showRestaurantMap(Context context) {
+        Intent showRestaurants = new Intent(context, MapActivity.class);
+        PendingIntent showRestaurantPendingIntent = PendingIntent.getActivity(
+                context,
+                ACTION_MAP_REQUEST_CODE,
+                showRestaurants,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        NotificationCompat.Action showRestaurantsAction = new NotificationCompat.Action(R.drawable.ic_map,
+                "Show restaurant map",
+                showRestaurantPendingIntent);
+
+        return showRestaurantsAction;
+    }
+
+    private static Bitmap largeIcon(Context context) {
+        Resources res = context.getResources();
+
+        Bitmap largeIcon = BitmapFactory.decodeResource(res, R.drawable.ic_notification_small_icon);
+        return largeIcon;
+    }
+
+    private static void cancelNotificationAlarm(Context context){
+        Intent notificationIntent = new Intent(context, NotificationReceiver.class);
+        notificationIntent.setAction("" + PENDINT_INTENT_REQUEST_CODE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, PENDINT_INTENT_REQUEST_CODE, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(getString(R.string.notifications_activation_key))) {
+            if (sharedPreferences.getBoolean(key, true)) {
+                scheduleNotification(this);
+            } else {
+                cancelNotificationAlarm(this);
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    private void checkPreferences(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        if (sharedPreferences.getBoolean(getString(R.string.notifications_activation_key), true)) {
+            scheduleNotification(this);
+        }
+        else {
+            cancelNotificationAlarm(this);
+        }
+    }
 }
