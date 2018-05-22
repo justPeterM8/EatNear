@@ -9,11 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
 import students.polsl.eatnear.R;
-import students.polsl.eatnear.activities.MainActivity;
+import static students.polsl.eatnear.utilities.Consts.*;
 
 public class WelcomeActivity extends AppCompatActivity {
-
-    private static final int REQUEST_PERMISSIONS_CODE = 100;
 
     private Button mEnterButton;
 

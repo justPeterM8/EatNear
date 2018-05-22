@@ -39,19 +39,12 @@ import students.polsl.eatnear.fragments.AllRestaurantsFragment;
 import students.polsl.eatnear.fragments.NearRestaurantsFragment;
 import students.polsl.eatnear.utilities.NotificationReceiver;
 
+import static students.polsl.eatnear.utilities.Consts.*;
+
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-
-    private static final String RESTAURANT_NOTIFICATION_CHANNEL_ID = "restaurant_channel";
-    private static final int PENDINT_INTENT_REQUEST_CODE = 1000;
-    private static final int ACTION_LIST_REQUEST_CODE = 1001;
-    private static final int ACTION_MAP_REQUEST_CODE = 1002;
-    private static final int ALARM_HOUR = 19;
-    private static final int ALARM_MINUTE = 55;
-    public static final String NOTIFICATION_KEY = "notification";
-    public static final String NOTIFICATION_CHANNEL_NAME = "restaurant_notificaion channel";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

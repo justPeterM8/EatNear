@@ -6,11 +6,9 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import static students.polsl.eatnear.utilities.Consts.*;
 
 public class NotificationReceiver extends BroadcastReceiver {
-
-    public static final String NOTIFICATION_KEY = "notification";
-    private static final int PENDINT_INTENT_REQUEST_CODE = 1000;
 
     @Override
     public void onReceive(Context context, Intent intent) {
