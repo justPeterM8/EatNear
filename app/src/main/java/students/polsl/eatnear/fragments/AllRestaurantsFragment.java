@@ -33,6 +33,8 @@ import students.polsl.eatnear.model.Restaurant;
 import students.polsl.eatnear.retrofit.EatNearClient;
 import students.polsl.eatnear.utilities.RetrofitUtils;
 
+import static students.polsl.eatnear.utilities.Consts.BACKEND_URL;
+
 public class AllRestaurantsFragment extends Fragment implements RestaurantsMainAdapter.RestaurantTileListener {
     private Context appContext;
     private RecyclerView mRecyclerView;
@@ -65,7 +67,7 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
         mAddActionButton = rootView.findViewById(R.id.fabAdd);
         mMapActionButton = rootView.findViewById(R.id.fabMap);
 
-        eatNearClient = RetrofitUtils.createClient("http://19e604c7.ngrok.io", EatNearClient.class);
+        eatNearClient = RetrofitUtils.createClient(BACKEND_URL, EatNearClient.class);
 
         LocationManager locationManager = (LocationManager) appContext.getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new AllRestaurantsFragment.MyLocationListener();

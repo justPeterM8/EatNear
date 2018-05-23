@@ -8,13 +8,6 @@
         android:summaryOn="@string/notifications_activation_summary_on"
         android:title="@string/notificationsActivationTitle" />
 
-    <ListPreference
-        android:defaultValue="@string/restaurant_types_default_value"
-        android:title="@string/restaurant_types_title"
-        android:key="@string/restaurant_types_key"
-        android:entries="@array/food_category"
-        android:entryValues="@array/food_category" />
-
     <EditTextPreference
         android:defaultValue= "@string/near_area_default_value"
         android:title="@string/near_area_title"

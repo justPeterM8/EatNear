@@ -5,7 +5,6 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.support.v7.preference.CheckBoxPreference;
 import android.support.v7.preference.EditTextPreference;
-import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
@@ -47,15 +46,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements OnShar
     }
 
     private void setPreferenceSummary(Preference preference, String value){
-        if (preference instanceof ListPreference){
-            ListPreference listPreference = (ListPreference) preference;
-            int index = listPreference.findIndexOfValue(value);
-            if(index == -1 )
-                preference.setSummary("summary_sample");
-            else
-                preference.setSummary(listPreference.getEntries()[index]);
-        }
-        else if (preference instanceof EditTextPreference){
+        if (preference instanceof EditTextPreference){
             preference.setSummary(value);
         }
     }

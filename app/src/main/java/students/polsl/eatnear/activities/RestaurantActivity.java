@@ -33,6 +33,8 @@ import students.polsl.eatnear.model.Review;
 import students.polsl.eatnear.retrofit.EatNearClient;
 import students.polsl.eatnear.utilities.RetrofitUtils;
 
+import static students.polsl.eatnear.utilities.Consts.BACKEND_URL;
+
 public class RestaurantActivity extends AppCompatActivity implements OnMapReadyCallback {
     private RecyclerView mRecyclerView;
     private ReviewsMainAdapter mReviewsMainAdapter;
@@ -67,7 +69,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         locLatitude = intent.getDoubleExtra("latitude", 0);
         locLongitude = intent.getDoubleExtra("longitude", 0);
 
-        eatNearClient = RetrofitUtils.createClient("http://19e604c7.ngrok.io", EatNearClient.class);
+        eatNearClient = RetrofitUtils.createClient(BACKEND_URL, EatNearClient.class);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);

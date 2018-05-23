@@ -25,6 +25,8 @@ import students.polsl.eatnear.retrofit.EatNearClient;
 import students.polsl.eatnear.utilities.RetrofitUtils;
 import students.polsl.eatnear.utilities.DateUtils;
 
+import static students.polsl.eatnear.utilities.Consts.BACKEND_URL;
+
 public class AddReviewActivity extends AppCompatActivity {
     private Button mSubmitButton;
     private RatingBar mRatingBar;
@@ -49,7 +51,7 @@ public class AddReviewActivity extends AppCompatActivity {
         mRestaurantNameTextView = findViewById(R.id.restaurantNameTextView);
 
         //retrofit
-        eatNearClient = RetrofitUtils.createClient("http://19e604c7.ngrok.io", EatNearClient.class);
+        eatNearClient = RetrofitUtils.createClient(BACKEND_URL, EatNearClient.class);
 
         Intent intent = getIntent();
         mRestaurantNameTextView.setText(intent.getStringExtra("name"));

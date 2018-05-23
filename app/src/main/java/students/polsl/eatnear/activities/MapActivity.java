@@ -33,6 +33,8 @@ import students.polsl.eatnear.model.Restaurant;
 import students.polsl.eatnear.retrofit.EatNearClient;
 import students.polsl.eatnear.utilities.RetrofitUtils;
 
+import static students.polsl.eatnear.utilities.Consts.BACKEND_URL;
+
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private ProgressBar mProgressBar;
     private EatNearClient eatNearClient;
@@ -51,7 +53,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mProgressBar.setVisibility(View.VISIBLE);
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        eatNearClient = RetrofitUtils.createClient("http://19e604c7.ngrok.io", EatNearClient.class);
+        eatNearClient = RetrofitUtils.createClient(BACKEND_URL, EatNearClient.class);
 
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&

@@ -35,6 +35,8 @@ import students.polsl.eatnear.model.Restaurant;
 import students.polsl.eatnear.retrofit.EatNearClient;
 import students.polsl.eatnear.utilities.RetrofitUtils;
 
+import static students.polsl.eatnear.utilities.Consts.BACKEND_URL;
+
 public class AddRestaurantActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private EditText mRestaurantNameEditText;
     private EditText mRestaurantAddressEditText;
@@ -60,7 +62,7 @@ public class AddRestaurantActivity extends AppCompatActivity implements AdapterV
         spinner.setOnItemSelectedListener(this);
 
         //retrofit
-        eatNearClient = RetrofitUtils.createClient("http://19e604c7.ngrok.io", EatNearClient.class);
+        eatNearClient = RetrofitUtils.createClient(BACKEND_URL, EatNearClient.class);
 
         ArrayAdapter<CharSequence> dataAdapter = ArrayAdapter.createFromResource(this,
                 R.array.food_category, R.layout.spinner_item);
