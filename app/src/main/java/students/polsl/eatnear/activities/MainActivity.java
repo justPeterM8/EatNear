@@ -28,11 +28,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import students.polsl.eatnear.R;
 import students.polsl.eatnear.fragments.AllRestaurantsFragment;
@@ -173,9 +175,13 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         notificationIntent.putExtra(NOTIFICATION_KEY, notification);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, PENDINT_INTENT_REQUEST_CODE, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        Date date = new Date();
+        int hour = date.getHours();
+        int minute = date.getMinutes() + 1;
+
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, ALARM_HOUR);
-        calendar.set(Calendar.MINUTE, ALARM_MINUTE);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute + 2);
         calendar.set(Calendar.SECOND, 00);
         long startUpTime = calendar.getTimeInMillis();
         if (System.currentTimeMillis() > startUpTime) {
@@ -204,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Action showRestaurantsAction = new NotificationCompat.Action(R.drawable.ic_list,
-                "Show restaurant list",
+                "Show list",
                 showRestaurantPendingIntent);
 
         return showRestaurantsAction;
@@ -219,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Action showRestaurantsAction = new NotificationCompat.Action(R.drawable.ic_map,
-                "Show restaurant map",
+                "Show map",
                 showRestaurantPendingIntent);
 
         return showRestaurantsAction;

@@ -11,5 +11,5 @@ public class Consts {
     public static final String NOTIFICATION_KEY = "notification";
     public static final String NOTIFICATION_CHANNEL_NAME = "restaurant_notificaion channel";
     public static final int REQUEST_PERMISSIONS_CODE = 100;
-    public static final String BACKEND_URL = "http://a77d1f79.ngrok.io";
+    public static final String BACKEND_URL = "http://caf7cfa7.ngrok.io";
 }

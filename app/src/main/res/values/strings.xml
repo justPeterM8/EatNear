@@ -15,7 +15,9 @@
     <string name="customer_name">Customer</string>
     <string name="review">Review</string>
     <string name="rating">Rating</string>
-    
+    <string name="no_restaurants">No restaurants to display</string>
+    <string name="no_reviews">Be first to rate this restaurant</string>
+
     <string-array name="food_category">
         <item>International</item>
         <item>Italian</item>

@@ -41,6 +41,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
     private FloatingActionButton mActionButton;
     private TextView mRestaurantNameTextView;
     private TextView mRestaurantLocationTextView;
+    private TextView mEmptyList;
     private EatNearClient eatNearClient;
     private double locLatitude;
     private double locLongitude;
@@ -61,6 +62,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
         mActionButton = findViewById(R.id.restaurant_floating_button);
         mRestaurantLocationTextView = findViewById(R.id.addressTextView);
         mRestaurantNameTextView = findViewById(R.id.restaurantNameTextView);
+        mEmptyList = findViewById(R.id.emptyListTextView);
 
         Intent intent = getIntent();
         logger.info(intent.getStringExtra("location"));
@@ -138,8 +140,11 @@ public class RestaurantActivity extends AppCompatActivity implements OnMapReadyC
             if(responseReview != null){//no data available
                 mReviewsMainAdapter.swapData(responseReview);
                 mRecyclerView.setVisibility(View.VISIBLE);
-            }else
+                mEmptyList.setVisibility(View.INVISIBLE);
+            }else {
                 mRecyclerView.setVisibility(View.INVISIBLE);
+                mEmptyList.setVisibility(View.VISIBLE);
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -43,6 +44,7 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
     private FloatingActionButton mMenuActionButton;
     private FloatingActionButton mMapActionButton;
     private FloatingActionButton mAddActionButton;
+    private TextView mEmptyList;
     private EatNearClient eatNearClient;
     private Location mCurrentLocation;
     private boolean mIsFabOpen;
@@ -66,6 +68,7 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
         mMenuActionButton = rootView.findViewById(R.id.fabMenu);
         mAddActionButton = rootView.findViewById(R.id.fabAdd);
         mMapActionButton = rootView.findViewById(R.id.fabMap);
+        mEmptyList = rootView.findViewById(R.id.emptyListTextView);
 
         eatNearClient = RetrofitUtils.createClient(BACKEND_URL, EatNearClient.class);
 
@@ -167,10 +170,18 @@ public class AllRestaurantsFragment extends Fragment implements RestaurantsMainA
             List<Restaurant> responseRestaurant = postResponse.body();
             if (responseRestaurant != null) {//there is no response (no user found)
                 mRestaurantsMainAdapter.swapData(responseRestaurant);
-                mRecyclerView.setVisibility(View.VISIBLE);
-            } else
+                if (responseRestaurant.size() == 0) {
+                    mEmptyList.setVisibility(View.VISIBLE);
+                    mRecyclerView.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    mEmptyList.setVisibility(View.INVISIBLE);
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                }
+            } else {
                 mRecyclerView.setVisibility(View.INVISIBLE);
-
+                mEmptyList.setVisibility(View.VISIBLE);
+            }
         }
     }
 }
